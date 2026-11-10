@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" id="theme-color" content="#f4f1ea">
+  <script>
+    (function () {
+      var theme = "light";
+      try {
+        var stored = localStorage.getItem("porcentagem_theme");
+        if (stored === "light" || stored === "dark") theme = stored;
+        else if (window.matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
+      } catch (e) {}
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <title>Mestre da Porcentagem - Método dos Zeros</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Fraunces:SOFT,opsz,wght@30..70,9..144,500..700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4f1ea;
+      --ink: #1c1917;
+      --ink-soft: rgba(28, 25, 23, 0.64);
+      --ink-faint: rgba(28, 25, 23, 0.38);
+      --surface-solid: #fbf9f4;
+      --well: #e6e0d4;
+      --line: rgba(28, 25, 23, 0.10);
+      --accent: #9a3412;
+      --accent-fill: #9a3412;
+      --accent-ink: #fff8f3;
+      --accent-soft: rgba(154, 52, 18, 0.14);
+      --ok: #1b7a43;
+      --ok-soft: rgba(27, 122, 67, 0.12);
+      --bad: #b42318;
+      --bad-soft: rgba(180, 35, 24, 0.10);
+      --fill: #1c1917;
+      --fill-ink: #f4f1ea;
+      --bar: rgba(244, 241, 234, 0.8);
+      --well-shadow: inset 0 1px 2px rgba(28, 25, 23, 0.16);
+      --thumb-highlight: rgba(255, 255, 255, 0.7);
+      --thumb-shadow: rgba(28, 25, 23, 0.12);
+      --hover: rgba(28, 25, 23, 0.045);
+      --radius-card: 14px;
+      --radius-field: 12px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --dur: 220ms;
+      --dur-slow: 280ms;
+      --chart-line: #9a3412;
+      --chart-fill: rgba(154, 52, 18, 0.12);
+      --chart-point: #1c1917;
+      --chart-grid: rgba(28, 25, 23, 0.08);
+      --chart-tick: rgba(28, 25, 23, 0.58);
+      color-scheme: light;
+    }
+
+    html[data-theme="dark"] {
+        --paper: #12110f;
+        --ink: #f3efe6;
+        --ink-soft: rgba(243, 239, 230, 0.66);
+        --ink-faint: rgba(243, 239, 230, 0.40);
+        --surface-solid: #1c1b19;
+        --well: #0e0d0c;
+        --line: rgba(243, 239, 230, 0.10);
+        --accent: #f0b089;
+        --accent-fill: #e39a6e;
+        --accent-ink: #2a140c;
+        --accent-soft: rgba(224, 138, 93, 0.20);
+        --ok: #3dd68c;
+        --ok-soft: rgba(61, 214, 140, 0.14);
+        --bad: #ff7a70;
+        --bad-soft: rgba(255, 122, 112, 0.14);
+        --fill: #f3efe6;
+        --fill-ink: #1c1917;
+        --bar: rgba(18, 17, 15, 0.78);
+        --well-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55);
+        --thumb-highlight: rgba(255, 255, 255, 0.08);
+        --thumb-shadow: rgba(0, 0, 0, 0.45);
+        --hover: rgba(243, 239, 230, 0.045);
+        --chart-line: #e39a6e;
+        --chart-fill: rgba(227, 154, 110, 0.16);
+        --chart-point: #f3efe6;
+        --chart-grid: rgba(243, 239, 230, 0.08);
+        --chart-tick: rgba(243, 239, 230, 0.62);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding-bottom: 64px;
+      font-family: "Atkinson Hyperlegible", "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+      color: var(--ink);
+      background:
+        radial-gradient(880px 300px at 50% -140px, var(--accent-soft), transparent 70%),
+        var(--paper);
+      font-variant-numeric: tabular-nums lining-nums;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select { font-family: inherit; color: inherit; }
+    button, select { -webkit-tap-highlight-color: transparent; }
+
+    ::selection {
+      background: var(--accent-soft);
+      color: var(--ink);
+    }
+
+    .display {
+      font-family: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
+      font-optical-sizing: auto;
+      font-weight: 560;
+      font-variation-settings: "SOFT" 40, "opsz" 72, "wght" 560;
+    }
+
+    .bar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bar);
+      backdrop-filter: blur(18px) saturate(1.4);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+      box-shadow: inset 0 -1px 0 var(--line);
+    }
+
+    .bar-inner {
+      min-height: 64px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      flex: none;
+    }
+
+    .logo circle { fill: var(--ink); }
+    .logo path {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-sub {
+      margin-top: 3px;
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+    }
+
+    .segmented {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-width: 236px;
+      padding: 3px;
+      border-radius: 999px;
+      background: var(--well);
+      box-shadow: var(--well-shadow);
+    }
+
+    .segment-thumb {
+      position: absolute;
+      z-index: 0;
+      top: 3px;
+      bottom: 3px;
+      left: 3px;
+      width: calc(50% - 3px);
+      border-radius: 999px;
+      background: var(--surface-solid);
+      box-shadow:
+        0 1px 2px var(--thumb-shadow),
+        inset 0 1px 0 var(--thumb-highlight);
+      transition: transform var(--dur-slow) var(--ease);
+    }
+
+    .segmented.is-analise .segment-thumb { transform: translateX(100%); }
+
+    .segment {
+      position: relative;
+      z-index: 1;
+      height: 38px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink-soft);
+      font-size: 0.875rem;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .segment.is-on { color: var(--ink); font-weight: 700; }
+
+    .segment:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .bar-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 14px 0 12px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--well);
+      color: var(--ink);
+      box-shadow: var(--well-shadow);
+      font-size: 0.875rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms var(--ease), filter 180ms var(--ease);
+    }
+
+    .theme-toggle:hover { filter: brightness(1.06); }
+    .theme-toggle:active { transform: scale(0.98); }
+
+    .theme-toggle:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .theme-icon {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .theme-icon-moon { fill: currentColor; stroke: none; }
+
+    .theme-icon-sun { display: none; }
+
+    html[data-theme="dark"] .theme-icon-sun { display: block; }
+    html[data-theme="dark"] .theme-icon-moon { display: none; }
+
+    .theme-label-escuro { display: none; }
+
+    html[data-theme="light"] .theme-label-claro { display: none; }
+    html[data-theme="light"] .theme-label-escuro { display: inline; }
+
+    @media (max-width: 420px) {
+      .theme-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .theme-toggle {
+        width: 44px;
+        padding: 0;
+      }
+    }
+
+    .page { margin-top: 28px; }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sheet {
+      background: var(--surface-solid);
+      border-radius: var(--radius-card);
+      box-shadow: 0 0 0 1px var(--line);
+      padding: 20px;
+    }
+
+    .lesson-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+    }
+
+    .select-wrap {
+      position: relative;
+      min-width: min(100%, 340px);
+      flex: 1 1 280px;
+    }
+
+    .select {
+      appearance: none;
+      width: 100%;
+      height: 44px;
+      padding: 0 40px 0 14px;
+      border: 0;
+      border-radius: var(--radius-field);
+      background: var(--well);
+      box-shadow: var(--well-shadow);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: box-shadow var(--dur) var(--ease);
+    }
+
+    .select:focus-visible {
+      outline: none;
+      box-shadow: var(--well-shadow), 0 0 0 4px var(--accent-soft);
+    }
+
+    .chevron {
+      position: absolute;
+      right: 14px;
+      bottom: 16px;
+      width: 12px;
+      height: 12px;
+      fill: var(--ink-soft);
+      pointer-events: none;
+    }
+
+    .score-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      min-height: 44px;
+      padding: 8px 14px;
+      border-radius: 12px;
+    }
+
+    .score-badge.is-ok { color: var(--ok); background: var(--ok-soft); }
+    .score-badge.is-mid { color: var(--accent); background: var(--accent-soft); }
+
+    .score-badge-value {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .score-badge-meta {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--ink-soft);
+    }
+
+    .tip {
+      --tip-bg: color-mix(in srgb, var(--accent) 8%, var(--surface-solid));
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--tip-bg);
+    }
+
+    .cut {
+      position: relative;
+      flex: none;
+      width: 36px;
+      height: 3px;
+      margin-top: 27px;
+      border-radius: 3px;
+      background: var(--accent);
+    }
+
+    .cut i {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      transform: translateX(-50%);
+      background: var(--tip-bg);
+      transition: width 320ms var(--ease);
+    }
+
+    .tip.is-cut .cut i { width: 5px; }
+
+    .tip-kicker {
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+    }
+
+    .tip-title {
+      margin-top: 2px;
+      font-size: 1.2rem;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .tip-text {
+      margin-top: 6px;
+      font-size: 0.9375rem;
+      line-height: 1.45;
+      color: var(--ink-soft);
+    }
+
+    .q-card {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 18px 18px;
+      border-radius: var(--radius-card);
+      background: var(--surface-solid);
+      box-shadow: 0 0 0 1px var(--line);
+      animation: rise 340ms var(--ease) both;
+      transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+
+    .q-card:hover:not(.is-correct):not(.is-wrong) {
+      box-shadow: 0 0 0 1px var(--line), 0 10px 24px var(--hover);
+    }
+
+    .q-card.is-correct {
+      background: color-mix(in srgb, var(--ok) 10%, var(--surface-solid));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ok) 45%, transparent);
+    }
+
+    .q-card.is-wrong {
+      background: color-mix(in srgb, var(--bad) 9%, var(--surface-solid));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--bad) 42%, transparent);
+    }
+
+    .q-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 24px;
+    }
+
+    .q-index {
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+    }
+
+    .q-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .q-eq {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .mark {
+      color: var(--accent);
+      font-family: Fraunces, Palatino, Georgia, serif;
+      font-weight: 560;
+      font-variation-settings: "SOFT" 50, "opsz" 48, "wght" 560;
+    }
+
+    .well {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+      width: 9.5rem;
+      height: 52px;
+      padding: 0 14px 0 12px;
+      border-radius: var(--radius-field);
+      background: var(--well);
+      box-shadow: var(--well-shadow);
+      transition: box-shadow 240ms var(--ease);
+    }
+
+    .well-prefix {
+      margin-right: 8px;
+      color: var(--ink-faint);
+      font-weight: 700;
+    }
+
+    .well-input {
+      width: 100%;
+      min-width: 0;
+      padding: 0 0 6px;
+      border: 0;
+      background: transparent;
+      text-align: right;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    .well-input::placeholder {
+      color: var(--ink-faint);
+      font-weight: 400;
+    }
+
+    .well-input:focus { outline: none; }
+
+    .well-line {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 8px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform var(--dur-slow) var(--ease), background var(--dur) var(--ease);
+    }
+
+    .well:focus-within {
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .well:focus-within .well-line { transform: scaleX(1); }
+
+    .q-card.is-wrong .well {
+      box-shadow: inset 0 0 0 1.5px var(--bad);
+    }
+
+    .q-card.is-wrong .well:focus-within {
+      box-shadow: inset 0 0 0 1.5px var(--bad), 0 0 0 4px var(--bad-soft);
+    }
+
+    .q-card.is-wrong .well-line {
+      background: var(--bad);
+      transform: scaleX(1);
+    }
+
+    .q-card.is-correct .well {
+      box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ok) 70%, transparent);
+    }
+
+    .q-card.is-correct .well:focus-within {
+      box-shadow:
+        inset 0 0 0 1.5px color-mix(in srgb, var(--ok) 70%, transparent),
+        0 0 0 4px var(--ok-soft);
+    }
+
+    .q-card.is-correct .well:focus-within .well-line {
+      background: var(--ok);
+      transform: scaleX(1);
+    }
+
+    .q-feedback {
+      max-height: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(4px);
+      font-size: 0.875rem;
+      line-height: 1.45;
+      color: var(--ink-soft);
+      transition:
+        max-height var(--dur-slow) var(--ease),
+        opacity var(--dur) var(--ease),
+        transform var(--dur-slow) var(--ease),
+        margin-top var(--dur-slow) var(--ease),
+        padding-top var(--dur-slow) var(--ease);
+    }
+
+    .q-card.is-correct .q-feedback,
+    .q-card.is-wrong .q-feedback {
+      max-height: 8rem;
+      margin-top: 14px;
+      padding-top: 12px;
+      opacity: 1;
+      transform: none;
+      box-shadow: inset 0 1px 0 var(--line);
+    }
+
+    .fb-label { font-weight: 700; color: var(--ink); }
+    .q-card.is-correct .fb-label { color: var(--ok); }
+    .q-card.is-wrong .fb-label { color: var(--bad); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 22px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pill.is-ok { color: var(--ok); background: var(--ok-soft); }
+    .pill.is-bad { color: var(--bad); background: var(--bad-soft); }
+    .pill.is-mid { color: var(--accent); background: var(--accent-soft); }
+    .pill.is-quiet { color: var(--ink-soft); background: var(--well); }
+
+    .draw {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .draw path {
+      stroke-dasharray: 22;
+      stroke-dashoffset: 22;
+      animation: draw 320ms var(--ease) forwards;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .actions-main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition:
+        transform 180ms var(--ease),
+        filter 180ms var(--ease),
+        background 180ms var(--ease),
+        color 180ms var(--ease);
+    }
+
+    .btn-primary {
+      background: var(--accent-fill);
+      color: var(--accent-ink);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 1px 2px rgba(28, 25, 23, 0.12);
+    }
+
+    .btn-fill {
+      background: var(--fill);
+      color: var(--fill-ink);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    .btn-primary:hover,
+    .btn-fill:hover { filter: brightness(1.06); }
+
+    .btn-primary:active,
+    .btn-fill:active { transform: scale(0.98); }
+
+    .btn-quiet {
+      padding: 0 12px;
+      background: transparent;
+      color: var(--ink-soft);
+      box-shadow: none;
+    }
+
+    .btn-quiet:hover {
+      color: var(--ink);
+      background: var(--hover);
+    }
+
+    .btn-danger:hover {
+      color: var(--bad);
+      background: var(--bad-soft);
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .btn-icon {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .stat {
+      padding: 16px 18px 14px;
+      border-radius: var(--radius-card);
+      background: var(--surface-solid);
+      box-shadow: 0 0 0 1px var(--line);
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    .stat-value.is-accent { color: var(--accent); }
+
+    .stat-label {
+      margin-top: 6px;
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+    }
+
+    .sheet-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .sheet-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .sheet-sub {
+      margin-top: 2px;
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+    }
+
+    .chart-frame { height: 16rem; }
+    @media (min-width: 640px) {
+      .chart-frame { height: 18rem; }
+    }
+
+    .table-scroll { overflow-x: auto; margin: 4px -20px -20px; }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+    }
+
+    .history-table th {
+      padding: 12px 16px;
+      background: color-mix(in srgb, var(--ink) 3%, var(--surface-solid));
+      color: var(--ink-soft);
+      font-size: 0.8125rem;
+      font-weight: 400;
+      text-align: left;
+    }
+
+    .history-table td {
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    .history-table tbody tr { transition: background 180ms var(--ease); }
+    .history-table tbody tr:hover { background: var(--hover); }
+
+    .col-strong { font-weight: 700; }
+    .col-soft { color: var(--ink-soft); font-size: 0.875rem; }
+    .col-muted { color: var(--ink-faint); }
+    .col-mid { text-align: center; }
+    .col-end { text-align: right; }
+    .col-num {
+      text-align: center;
+      font-weight: 700;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    .sheet-title-pad {
+      padding: 0 0 14px;
+      box-shadow: inset 0 -1px 0 var(--line);
+      margin: -4px 0 0;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+
+    .is-entering { animation: rise var(--dur-slow) var(--ease); }
+
+    @media (max-width: 640px) {
+      .q-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .well { width: 100%; }
+
+      .score-badge { align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .q-card,
+      .is-entering,
+      .draw path {
+        animation: none;
+      }
+
+      .draw path { stroke-dashoffset: 0; }
+      .cut i { width: 5px; transition: none; }
+
+      .segment-thumb,
+      .well,
+      .well-line,
+      .q-feedback,
+      .q-card,
+      .btn,
+      .theme-toggle,
+      .history-table tbody tr {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="bar">
+    <div class="max-w-5xl mx-auto px-4 bar-inner flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="9.5" cy="8.5" r="3"></circle>
+          <circle cx="22.5" cy="23.5" r="3"></circle>
+          <path d="M24 6.5 L8 25.5"></path>
+        </svg>
+        <div class="min-w-0">
+          <h1 class="display brand">Mestre da Porcentagem</h1>
+          <p class="brand-sub">Método de corte de zeros e vírgula</p>
+        </div>
+      </div>
+
+      <div class="bar-tools">
+        <button type="button" class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-pressed="false" aria-label="Ativar modo claro">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"></path>
+          </svg>
+          <span class="theme-label theme-label-claro">Claro</span>
+          <span class="theme-label theme-label-escuro">Escuro</span>
+        </button>
+      <nav class="segmented" id="segmented" role="tablist" aria-label="Seções">
+        <span class="segment-thumb" aria-hidden="true"></span>
+        <button type="button" id="tab-exercicios-btn" class="segment is-on" role="tab" aria-selected="true" aria-controls="tab-exercicios" onclick="switchTab('exercicios')">
+          Exercícios
+        </button>
+        <button type="button" id="tab-analise-btn" class="segment" role="tab" aria-selected="false" aria-controls="tab-analise" onclick="switchTab('analise')">
+          Análise
+        </button>
+      </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="page max-w-5xl mx-auto px-4">
+
+    <section id="tab-exercicios" class="stack" role="tabpanel" aria-labelledby="tab-exercicios-btn">
+
+      <div class="sheet">
+        <div class="lesson-head">
+          <div class="select-wrap">
+            <label class="field-label" for="lesson-select">Aula</label>
+            <select id="lesson-select" class="select" onchange="loadLesson(this.value)"></select>
+            <svg class="chevron" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2.1 4.2a.75.75 0 0 1 1.06 0L6 6.99l2.84-2.8a.75.75 0 1 1 1.05 1.07L6.53 8.6a.75.75 0 0 1-1.06 0L2.1 5.27a.75.75 0 0 1 0-1.06z"></path>
+            </svg>
+          </div>
+          <div id="lesson-badge" aria-live="polite"></div>
+        </div>
+
+        <div class="tip" id="tip">
+          <span class="cut" aria-hidden="true"><i></i></span>
+          <div>
+            <p class="tip-kicker">Técnica da aula</p>
+            <h2 class="display tip-title" id="tip-title"></h2>
+            <p class="tip-text" id="tip-text"></p>
+          </div>
+        </div>
+      </div>
+
+      <form id="quiz-form" autocomplete="off" onsubmit="event.preventDefault(); submitLesson();" class="stack">
+        <div id="questions-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-quiet" onclick="clearCurrentLesson()">Limpar respostas</button>
+          <div class="actions-main">
+            <button type="submit" class="btn btn-primary" id="btn-submit">
+              <span>Corrigir aula</span>
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7.5"></path></svg>
+            </button>
+            <button type="button" class="btn btn-fill hidden" id="btn-next" onclick="nextLesson()">
+              <span id="btn-next-label">Próxima aula</span>
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section id="tab-analise" class="stack hidden" role="tabpanel" aria-labelledby="tab-analise-btn">
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="stat">
+          <p class="stat-value" id="stat-completed">0 / 10</p>
+          <p class="stat-label">Aulas concluídas</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value is-accent" id="stat-accuracy">0%</p>
+          <p class="stat-label">Taxa de acerto</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value" id="stat-total-correct">0 / 100</p>
+          <p class="stat-label">Total de acertos</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value" id="stat-avg">0,0</p>
+          <p class="stat-label">Média por aula</p>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <div class="sheet-head">
+          <div>
+            <h3 class="sheet-title">Curva de progressão</h3>
+            <p class="sheet-sub">Acertos de cada dia, no máximo 10.</p>
+          </div>
+          <button type="button" class="btn btn-quiet btn-danger" onclick="resetAllProgress()">Reiniciar progresso</button>
+        </div>
+        <div class="chart-frame">
+          <canvas id="progressChart"></canvas>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <h3 class="sheet-title sheet-title-pad">Histórico por aula</h3>
+        <div class="table-scroll">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Aula</th>
+                <th>Foco da técnica</th>
+                <th class="col-mid">Acertos</th>
+                <th class="col-mid">Aproveitamento</th>
+                <th class="col-end">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const lessonsData = [
+      {
+        id: 1,
+        title: "Dia 1: Cortar 2 zeros no valor base",
+        tip: "O símbolo % elimina dois zeros finais. Corte os dois zeros do número base e multiplique os dígitos restantes.",
+        questions: [
+          { q: "3% de 200", a: "6", exp: "Corta os 2 zeros do 200 → 3 × 2 = 6" },
+          { q: "5% de 300", a: "15", exp: "Corta os 2 zeros do 300 → 5 × 3 = 15" },
+          { q: "8% de 100", a: "8", exp: "Corta os 2 zeros do 100 → 8 × 1 = 8" },
+          { q: "4% de 600", a: "24", exp: "Corta os 2 zeros do 600 → 4 × 6 = 24" },
+          { q: "7% de 500", a: "35", exp: "Corta os 2 zeros do 500 → 7 × 5 = 35" },
+          { q: "2% de 800", a: "16", exp: "Corta os 2 zeros do 800 → 2 × 8 = 16" },
+          { q: "6% de 700", a: "42", exp: "Corta os 2 zeros do 700 → 6 × 7 = 42" },
+          { q: "9% de 400", a: "36", exp: "Corta os 2 zeros do 400 → 9 × 4 = 36" },
+          { q: "12% de 200", a: "24", exp: "Corta os 2 zeros do 200 → 12 × 2 = 24" },
+          { q: "15% de 300", a: "45", exp: "Corta os 2 zeros do 300 → 15 × 3 = 45" }
+        ]
+      },
+      {
+        id: 2,
+        title: "Dia 2: Cortar 1 zero em cada número",
+        tip: "Corta um zero da porcentagem e um zero do número base (total de 2 zeros) e depois multiplique.",
+        questions: [
+          { q: "30% de 40", a: "12", exp: "Corta 1 zero do 30 e 1 do 40 → 3 × 4 = 12" },
+          { q: "20% de 90", a: "18", exp: "Corta 1 zero do 20 e 1 do 90 → 2 × 9 = 18" },
+          { q: "50% de 80", a: "40", exp: "Corta 1 zero do 50 e 1 do 80 → 5 × 8 = 40" },
+          { q: "40% de 70", a: "28", exp: "Corta 1 zero do 40 e 1 do 70 → 4 × 7 = 28" },
+          { q: "60% de 30", a: "18", exp: "Corta 1 zero do 60 e 1 do 30 → 6 × 3 = 18" },
+          { q: "70% de 20", a: "14", exp: "Corta 1 zero do 70 e 1 do 20 → 7 × 2 = 14" },
+          { q: "80% de 50", a: "40", exp: "Corta 1 zero do 80 e 1 do 50 → 8 × 5 = 40" },
+          { q: "90% de 60", a: "54", exp: "Corta 1 zero do 90 e 1 do 60 → 9 × 6 = 54" },
+          { q: "40% de 40", a: "16", exp: "Corta 1 zero do 40 e 1 do 40 → 4 × 4 = 16" },
+          { q: "80% de 90", a: "72", exp: "Corta 1 zero do 80 e 1 do 90 → 8 × 9 = 72" }
+        ]
+      },
+      {
+        id: 3,
+        title: "Dia 3: Mistura com números maiores",
+        tip: "Corte 2 zeros no total onde quer que estejam. O que restar dos zeros deve ser conservado na multiplicação.",
+        questions: [
+          { q: "4% de 900", a: "36", exp: "Corta os 2 zeros do 900 → 4 × 9 = 36" },
+          { q: "70% de 30", a: "21", exp: "Corta 1 zero de cada → 7 × 3 = 21" },
+          { q: "6% de 1.200", a: "72", exp: "Corta os 2 zeros do 1200 → 6 × 12 = 72" },
+          { q: "30% de 80", a: "24", exp: "Corta 1 zero de cada → 3 × 8 = 24" },
+          { q: "11% de 400", a: "44", exp: "Corta 2 zeros do 400 → 11 × 4 = 44" },
+          { q: "50% de 120", a: "60", exp: "Corta 1 zero de cada → 5 × 12 = 60" },
+          { q: "8% de 500", a: "40", exp: "Corta 2 zeros do 500 → 8 × 5 = 40" },
+          { q: "90% de 70", a: "63", exp: "Corta 1 zero de cada → 9 × 7 = 63" },
+          { q: "15% de 400", a: "60", exp: "Corta 2 zeros do 400 → 15 × 4 = 60" },
+          { q: "40% de 150", a: "60", exp: "Corta 1 zero de cada → 4 × 15 = 60" }
+        ]
+      },
+      {
+        id: 4,
+        title: "Dia 4: Zero que surge na multiplicação",
+        tip: "Corta 1 zero visível, multiplica os números e corte o segundo zero que apareceu no resultado final.",
+        questions: [
+          { q: "6% de 50", a: "3", exp: "Corta 1 zero do 50 → 6 × 5 = 30 → corta o zero final = 3" },
+          { q: "8% de 50", a: "4", exp: "Corta 1 zero do 50 → 8 × 5 = 40 → corta o zero final = 4" },
+          { q: "12% de 50", a: "6", exp: "Corta 1 zero do 50 → 12 × 5 = 60 → corta o zero final = 6" },
+          { q: "14% de 50", a: "7", exp: "Corta 1 zero do 50 → 14 × 5 = 70 → corta o zero final = 7" },
+          { q: "5% de 60", a: "3", exp: "Corta 1 zero do 60 → 5 × 6 = 30 → corta o zero final = 3" },
+          { q: "5% de 80", a: "4", exp: "Corta 1 zero do 80 → 5 × 8 = 40 → corta o zero final = 4" },
+          { q: "15% de 20", a: "3", exp: "Corta 1 zero do 20 → 15 × 2 = 30 → corta o zero final = 3" },
+          { q: "25% de 40", a: "10", exp: "Corta 1 zero do 40 → 25 × 4 = 100 → corta mais 1 zero = 10" },
+          { q: "35% de 20", a: "7", exp: "Corta 1 zero do 20 → 35 × 2 = 70 → corta o zero final = 7" },
+          { q: "45% de 20", a: "9", exp: "Corta 1 zero do 20 → 45 × 2 = 90 → corta o zero final = 9" }
+        ]
+      },
+      {
+        id: 5,
+        title: "Dia 5: Corta 1 zero e anda 1 casa decimal (I)",
+        tip: "Corta o único zero visível e multiplique. Como falta cortar 1 zero, ande 1 casa para a esquerda com a vírgula.",
+        questions: [
+          { q: "20% de 13", a: "2,6", exp: "Corta zero do 20 → 2 × 13 = 26 → falta 1 zero: anda 1 casa = 2,6" },
+          { q: "30% de 14", a: "4,2", exp: "Corta zero do 30 → 3 × 14 = 42 → anda 1 casa = 4,2" },
+          { q: "40% de 12", a: "4,8", exp: "Corta zero do 40 → 4 × 12 = 48 → anda 1 casa = 4,8" },
+          { q: "50% de 17", a: "8,5", exp: "Corta zero do 50 → 5 × 17 = 85 → anda 1 casa = 8,5" },
+          { q: "20% de 43", a: "8,6", exp: "Corta zero do 20 → 2 × 43 = 86 → anda 1 casa = 8,6" },
+          { q: "60% de 11", a: "6,6", exp: "Corta zero do 60 → 6 × 11 = 66 → anda 1 casa = 6,6" },
+          { q: "10% de 74", a: "7,4", exp: "Corta zero do 10 → 1 × 74 = 74 → anda 1 casa = 7,4" },
+          { q: "30% de 25", a: "7,5", exp: "Corta zero do 30 → 3 × 25 = 75 → anda 1 casa = 7,5" },
+          { q: "20% de 81", a: "16,2", exp: "Corta zero do 20 → 2 × 81 = 162 → anda 1 casa = 16,2" },
+          { q: "70% de 12", a: "8,4", exp: "Corta zero do 70 → 7 × 12 = 84 → anda 1 casa = 8,4" }
+        ]
+      },
+      {
+        id: 6,
+        title: "Dia 6: Corta 1 zero e anda 1 casa decimal (II)",
+        tip: "O zero pode estar no número base ou na porcentagem. Corte-o, multiplique e recue uma vírgula.",
+        questions: [
+          { q: "4% de 30", a: "1,2", exp: "Corta zero do 30 → 4 × 3 = 12 → anda 1 casa = 1,2" },
+          { q: "7% de 50", a: "3,5", exp: "Corta zero do 50 → 7 × 5 = 35 → anda 1 casa = 3,5" },
+          { q: "8% de 30", a: "2,4", exp: "Corta zero do 30 → 8 × 3 = 24 → anda 1 casa = 2,4" },
+          { q: "9% de 60", a: "5,4", exp: "Corta zero do 60 → 9 × 6 = 54 → anda 1 casa = 5,4" },
+          { q: "6% de 40", a: "2,4", exp: "Corta zero do 40 → 6 × 4 = 24 → anda 1 casa = 2,4" },
+          { q: "40% de 23", a: "9,2", exp: "Corta zero do 40 → 4 × 23 = 92 → anda 1 casa = 9,2" },
+          { q: "30% de 32", a: "9,6", exp: "Corta zero do 30 → 3 × 32 = 96 → anda 1 casa = 9,6" },
+          { q: "50% de 29", a: "14,5", exp: "Corta zero do 50 → 5 × 29 = 145 → anda 1 casa = 14,5" },
+          { q: "80% de 17", a: "13,6", exp: "Corta zero do 80 → 8 × 17 = 136 → anda 1 casa = 13,6" },
+          { q: "60% de 24", a: "14,4", exp: "Corta zero do 60 → 6 × 24 = 144 → anda 1 casa = 14,4" }
+        ]
+      },
+      {
+        id: 7,
+        title: "Dia 7: Sem zeros (Andar 2 casas com a vírgula - I)",
+        tip: "Não tem zeros para cortar? Multiplique direto e recue 2 casas para a esquerda com a vírgula.",
+        questions: [
+          { q: "2% de 142", a: "2,84", exp: "Multiplica direto: 2 × 142 = 284 → anda 2 casas = 2,84" },
+          { q: "3% de 213", a: "6,39", exp: "Multiplica direto: 3 × 213 = 639 → anda 2 casas = 6,39" },
+          { q: "4% de 121", a: "4,84", exp: "Multiplica direto: 4 × 121 = 484 → anda 2 casas = 4,84" },
+          { q: "2% de 234", a: "4,68", exp: "Multiplica direto: 2 × 234 = 468 → anda 2 casas = 4,68" },
+          { q: "3% de 111", a: "3,33", exp: "Multiplica direto: 3 × 111 = 333 → anda 2 casas = 3,33" },
+          { q: "5% de 111", a: "5,55", exp: "Multiplica direto: 5 × 111 = 555 → anda 2 casas = 5,55" },
+          { q: "2% de 413", a: "8,26", exp: "Multiplica direto: 2 × 413 = 826 → anda 2 casas = 8,26" },
+          { q: "4% de 202", a: "8,08", exp: "Multiplica direto: 4 × 202 = 808 → anda 2 casas = 8,08" },
+          { q: "3% de 321", a: "9,63", exp: "Multiplica direto: 3 × 321 = 963 → anda 2 casas = 9,63" },
+          { q: "2% de 324", a: "6,48", exp: "Multiplica direto: 2 × 324 = 648 → anda 2 casas = 6,48" }
+        ]
+      },
+      {
+        id: 8,
+        title: "Dia 8: Sem zeros (Produtos de 2 dígitos e vírgula)",
+        tip: "Se a multiplicação der 2 dígitos (ex: 75), ao andar 2 casas com a vírgula o resultado vira 0,75.",
+        questions: [
+          { q: "3% de 24", a: "0,72", exp: "Multiplica direto: 3 × 24 = 72 → anda 2 casas = 0,72" },
+          { q: "5% de 31", a: "1,55", exp: "Multiplica direto: 5 × 31 = 155 → anda 2 casas = 1,55" },
+          { q: "4% de 42", a: "1,68", exp: "Multiplica direto: 4 × 42 = 168 → anda 2 casas = 1,68" },
+          { q: "6% de 23", a: "1,38", exp: "Multiplica direto: 6 × 23 = 138 → anda 2 casas = 1,38" },
+          { q: "7% de 21", a: "1,47", exp: "Multiplica direto: 7 × 21 = 147 → anda 2 casas = 1,47" },
+          { q: "8% de 12", a: "0,96", exp: "Multiplica direto: 8 × 12 = 96 → anda 2 casas = 0,96" },
+          { q: "9% de 13", a: "1,17", exp: "Multiplica direto: 9 × 13 = 117 → anda 2 casas = 1,17" },
+          { q: "12% de 21", a: "2,52", exp: "Multiplica direto: 12 × 21 = 252 → anda 2 casas = 2,52" },
+          { q: "11% de 34", a: "3,74", exp: "Multiplica direto: 11 × 34 = 374 → anda 2 casas = 3,74" },
+          { q: "15% de 31", a: "4,65", exp: "Multiplica direto: 15 × 31 = 465 → anda 2 casas = 4,65" }
+        ]
+      },
+      {
+        id: 9,
+        title: "Dia 9: Treino Misto (Identificação Rápida)",
+        tip: "Conte quantos zeros existem: se forem 2 corte-os; se for 1 ande 1 casa; se não tiver nenhum ande 2 casas.",
+        questions: [
+          { q: "4% de 300", a: "12", exp: "Corta 2 zeros → 4 × 3 = 12" },
+          { q: "30% de 50", a: "15", exp: "Corta 1 zero de cada → 3 × 5 = 15" },
+          { q: "6% de 50", a: "3", exp: "Corta 1 zero → 6 × 5 = 30 → corta outro zero = 3" },
+          { q: "20% de 45", a: "9", exp: "Corta 1 zero → 2 × 45 = 90 → corta outro zero = 9" },
+          { q: "30% de 21", a: "6,3", exp: "Corta 1 zero → 3 × 21 = 63 → anda 1 casa = 6,3" },
+          { q: "50% de 19", a: "9,5", exp: "Corta 1 zero → 5 × 19 = 95 → anda 1 casa = 9,5" },
+          { q: "7% de 40", a: "2,8", exp: "Corta 1 zero → 7 × 4 = 28 → anda 1 casa = 2,8" },
+          { q: "3% de 212", a: "6,36", exp: "Sem zeros → 3 × 212 = 636 → anda 2 casas = 6,36" },
+          { q: "4% de 32", a: "1,28", exp: "Sem zeros → 4 × 32 = 128 → anda 2 casas = 1,28" },
+          { q: "7% de 200", a: "14", exp: "Corta 2 zeros → 7 × 2 = 14" }
+        ]
+      },
+      {
+        id: 10,
+        title: "Dia 10: Desafio Final de Maestria",
+        tip: "Desafio cronometrado mental. Aplique o corte de zeros e a vírgula instantaneamente!",
+        questions: [
+          { q: "8% de 400", a: "32", exp: "Corta 2 zeros → 8 × 4 = 32" },
+          { q: "40% de 60", a: "24", exp: "Corta 1 zero de cada → 4 × 6 = 24" },
+          { q: "18% de 50", a: "9", exp: "Corta 1 zero → 18 × 5 = 90 → corta o outro = 9" },
+          { q: "60% de 15", a: "9", exp: "Corta 1 zero → 6 × 15 = 90 → corta o outro = 9" },
+          { q: "40% de 27", a: "10,8", exp: "Corta 1 zero → 4 × 27 = 108 → anda 1 casa = 10,8" },
+          { q: "70% de 14", a: "9,8", exp: "Corta 1 zero → 7 × 14 = 98 → anda 1 casa = 9,8" },
+          { q: "8% de 40", a: "3,2", exp: "Corta 1 zero → 8 × 4 = 32 → anda 1 casa = 3,2" },
+          { q: "2% de 431", a: "8,62", exp: "Sem zeros → 2 × 431 = 862 → anda 2 casas = 8,62" },
+          { q: "5% de 43", a: "2,15", exp: "Sem zeros → 5 × 43 = 215 → anda 2 casas = 2,15" },
+          { q: "12% de 13", a: "1,56", exp: "Sem zeros → 12 × 13 = 156 → anda 2 casas = 1,56" }
+        ]
+      }
+    ];
+
+    let currentLessonId = 1;
+    let userProgress = JSON.parse(localStorage.getItem('porcentagem_progress')) || {};
+    let chartInstance = null;
+
+    let audioCtx = null;
+    function playTone(freq, duration, type = "sine") {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function formatQuestion(text) {
+      return esc(text).replace("%", '<span class="mark">%</span>');
+    }
+
+    function readToken(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function replayCut() {
+      const tip = document.getElementById("tip");
+      tip.classList.remove("is-cut");
+      void tip.offsetWidth;
+      tip.classList.add("is-cut");
+    }
+
+    function syncThemeControl() {
+      const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      const btn = document.getElementById("theme-toggle");
+      const toLight = theme === "dark";
+      btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+      btn.setAttribute("aria-label", toLight ? "Ativar modo claro" : "Ativar modo escuro");
+      const meta = document.getElementById("theme-color");
+      if (meta) meta.setAttribute("content", theme === "dark" ? "#12110f" : "#f4f1ea");
+    }
+
+    function toggleTheme() {
+      const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("porcentagem_theme", next); } catch (e) {}
+      syncThemeControl();
+      renderAnalytics();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      syncThemeControl();
+      populateLessonSelect();
+      loadLesson(1);
+      renderAnalytics();
+      const themeMq = window.matchMedia("(prefers-color-scheme: dark)");
+      const onTheme = () => {
+        let stored = null;
+        try { stored = localStorage.getItem("porcentagem_theme"); } catch (e) {}
+        if (stored === "light" || stored === "dark") return;
+        document.documentElement.setAttribute("data-theme", themeMq.matches ? "dark" : "light");
+        syncThemeControl();
+        renderAnalytics();
+      };
+      if (themeMq.addEventListener) themeMq.addEventListener("change", onTheme);
+      else if (themeMq.addListener) themeMq.addListener(onTheme);
+    });
+
+    function switchTab(tab) {
+      const tabEx = document.getElementById("tab-exercicios");
+      const tabAn = document.getElementById("tab-analise");
+      const btnEx = document.getElementById("tab-exercicios-btn");
+      const btnAn = document.getElementById("tab-analise-btn");
+      const showEx = tab === "exercicios";
+
+      tabEx.classList.toggle("hidden", !showEx);
+      tabAn.classList.toggle("hidden", showEx);
+      document.getElementById("segmented").classList.toggle("is-analise", !showEx);
+      btnEx.classList.toggle("is-on", showEx);
+      btnAn.classList.toggle("is-on", !showEx);
+      btnEx.setAttribute("aria-selected", showEx ? "true" : "false");
+      btnAn.setAttribute("aria-selected", showEx ? "false" : "true");
+
+      const panel = showEx ? tabEx : tabAn;
+      panel.classList.remove("is-entering");
+      void panel.offsetWidth;
+      panel.classList.add("is-entering");
+
+      if (!showEx) renderAnalytics();
+    }
+
+    function populateLessonSelect() {
+      const select = document.getElementById("lesson-select");
+      select.innerHTML = "";
+      lessonsData.forEach(l => {
+        const opt = document.createElement("option");
+        opt.value = l.id;
+        opt.textContent = l.title;
+        select.appendChild(opt);
+      });
+    }
+
+    function loadLesson(id) {
+      currentLessonId = parseInt(id, 10);
+      const lesson = lessonsData.find(l => l.id === currentLessonId);
+      document.getElementById("lesson-select").value = currentLessonId;
+      document.getElementById("tip-title").textContent = lesson.title;
+      document.getElementById("tip-text").textContent = lesson.tip;
+      document.getElementById("btn-next-label").textContent = currentLessonId < 10 ? "Próxima aula" : "Ver progresso";
+      replayCut();
+
+      const container = document.getElementById("questions-container");
+      container.innerHTML = "";
+
+      const saved = userProgress[currentLessonId] || null;
+      updateLessonBadge(saved);
+
+      lesson.questions.forEach((q, idx) => {
+        const userAns = saved ? (saved.answers[idx] || "") : "";
+        const card = document.createElement("article");
+        card.id = `q-card-${idx}`;
+        card.className = "q-card";
+        card.style.animationDelay = `${idx * 35}ms`;
+        card.innerHTML = `
+          <div class="q-card-top">
+            <span class="q-index">Questão ${idx + 1} de 10</span>
+            <span id="badge-${idx}" class="pill is-quiet" hidden></span>
+          </div>
+          <div class="q-row">
+            <p class="q-eq">${formatQuestion(q.q)}</p>
+            <label class="well">
+              <span class="well-prefix" aria-hidden="true">=</span>
+              <input
+                type="text"
+                inputmode="decimal"
+                placeholder="0,00"
+                id="input-${idx}"
+                value="${esc(userAns)}"
+                class="well-input"
+                aria-label="Resposta para ${esc(q.q)}"
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <span class="well-line" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div id="feedback-${idx}" class="q-feedback"></div>
+        `;
+        container.appendChild(card);
+      });
+
+      if (saved) {
+        showResults(saved);
+        document.getElementById("btn-next").classList.remove("hidden");
+      } else {
+        document.getElementById("btn-next").classList.add("hidden");
+      }
+    }
+
+    function normalizeInput(val) {
+      return (val || "")
+        .trim()
+        .replace(/\s+/g, "")
+        .replace(".", ",");
+    }
+
+    function submitLesson() {
+      const lesson = lessonsData.find(l => l.id === currentLessonId);
+      const answers = [];
+      let correctCount = 0;
+
+      lesson.questions.forEach((q, idx) => {
+        const inp = document.getElementById(`input-${idx}`);
+        const userValue = normalizeInput(inp.value);
+        answers.push(userValue);
+        if (userValue === normalizeInput(q.a)) correctCount++;
+      });
+
+      userProgress[currentLessonId] = {
+        answers: answers,
+        score: correctCount,
+        total: 10,
+        date: new Date().toLocaleDateString("pt-BR")
+      };
+      localStorage.setItem("porcentagem_progress", JSON.stringify(userProgress));
+
+      if (correctCount >= 8) {
+        playTone(587.33, 0.1);
+        setTimeout(() => playTone(880, 0.25), 100);
+      } else {
+        playTone(330, 0.25, "triangle");
+      }
+
+      showResults(userProgress[currentLessonId]);
+      updateLessonBadge(userProgress[currentLessonId]);
+      document.getElementById("btn-next").classList.remove("hidden");
+    }
+
+    function showResults(data) {
+      const lesson = lessonsData.find(l => l.id === currentLessonId);
+
+      lesson.questions.forEach((q, idx) => {
+        const card = document.getElementById(`q-card-${idx}`);
+        const badge = document.getElementById(`badge-${idx}`);
+        const fb = document.getElementById(`feedback-${idx}`);
+        const userValue = normalizeInput(data.answers[idx]);
+        const expected = normalizeInput(q.a);
+        const ok = userValue === expected;
+
+        card.classList.toggle("is-correct", ok);
+        card.classList.toggle("is-wrong", !ok);
+        badge.hidden = false;
+
+        if (ok) {
+          badge.className = "pill is-ok";
+          badge.innerHTML = '<svg class="draw" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7.5"></path></svg> Correto';
+          fb.innerHTML = `<span class="fb-label">Técnica.</span> ${esc(q.exp)}`;
+        } else {
+          badge.className = "pill is-bad";
+          badge.textContent = `Resposta: ${q.a}`;
+          fb.innerHTML = `<span class="fb-label">Passo a passo.</span> ${esc(q.exp)}`;
+        }
+      });
+    }
+
+    function updateLessonBadge(saved) {
+      const badgeBox = document.getElementById("lesson-badge");
+      if (saved) {
+        const pct = saved.score * 10;
+        const tone = saved.score >= 8 ? "is-ok" : "is-mid";
+        badgeBox.innerHTML = `
+          <div class="score-badge ${tone}">
+            <span class="score-badge-value">${saved.score}/10</span>
+            <span class="score-badge-meta">${pct}% · ${esc(saved.date)}</span>
+          </div>
+        `;
+      } else {
+        badgeBox.innerHTML = '<span class="pill is-quiet">Pendente</span>';
+      }
+    }
+
+    function nextLesson() {
+      if (currentLessonId < 10) {
+        loadLesson(currentLessonId + 1);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        switchTab("analise");
+      }
+    }
+
+    function clearCurrentLesson() {
+      if (confirm("Deseja limpar as respostas desta aula?")) {
+        delete userProgress[currentLessonId];
+        localStorage.setItem("porcentagem_progress", JSON.stringify(userProgress));
+        loadLesson(currentLessonId);
+      }
+    }
+
+    function renderAnalytics() {
+      let completed = 0;
+      let totalCorrect = 0;
+      const scores = [];
+      const labels = [];
+
+      for (let i = 1; i <= 10; i++) {
+        labels.push(`Dia ${i}`);
+        const p = userProgress[i];
+        if (p) {
+          completed++;
+          totalCorrect += p.score;
+          scores.push(p.score);
+        } else {
+          scores.push(null);
+        }
+      }
+
+      const totalAttempted = completed * 10;
+      const acc = totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
+      const avg = completed > 0 ? (totalCorrect / completed).toFixed(1).replace(".", ",") : "0,0";
+
+      document.getElementById("stat-completed").textContent = `${completed} / 10`;
+      document.getElementById("stat-accuracy").textContent = `${acc}%`;
+      document.getElementById("stat-total-correct").textContent = `${totalCorrect} / 100`;
+      document.getElementById("stat-avg").textContent = avg;
+
+      const ctx = document.getElementById("progressChart").getContext("2d");
+      if (chartInstance) chartInstance.destroy();
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const tickFont = { family: '"Atkinson Hyperlegible", sans-serif', size: 12 };
+
+      chartInstance = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Acertos",
+            data: scores,
+            borderColor: readToken("--chart-line"),
+            backgroundColor: readToken("--chart-fill"),
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.35,
+            pointBackgroundColor: readToken("--chart-point"),
+            pointBorderColor: readToken("--chart-line"),
+            pointBorderWidth: 2,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            spanGaps: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: reduceMotion ? false : { duration: 480, easing: "easeOutQuart" },
+          scales: {
+            y: {
+              min: 0,
+              max: 10,
+              grid: { color: readToken("--chart-grid") },
+              border: { display: false },
+              ticks: { color: readToken("--chart-tick"), stepSize: 2, font: tickFont }
+            },
+            x: {
+              grid: { display: false },
+              border: { display: false },
+              ticks: { color: readToken("--chart-tick"), font: tickFont }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: readToken("--ink"),
+              titleColor: readToken("--paper"),
+              bodyColor: readToken("--paper"),
+              padding: 10,
+              cornerRadius: 10,
+              displayColors: false,
+              callbacks: {
+                label: (item) => `Acertos: ${item.parsed.y} de 10 (${item.parsed.y * 10}%)`
+              }
+            }
+          }
+        }
+      });
+
+      const tbody = document.getElementById("history-table-body");
+      tbody.innerHTML = "";
+
+      lessonsData.forEach(l => {
+        const p = userProgress[l.id];
+        const tr = document.createElement("tr");
+        const focus = esc((l.title.split(": ")[1] || l.title));
+
+        if (p) {
+          const pct = p.score * 10;
+          const tone = p.score >= 8 ? "is-ok" : "is-mid";
+          tr.innerHTML = `
+            <td class="col-strong">Dia ${l.id}</td>
+            <td class="col-soft">${focus}</td>
+            <td class="col-num">${p.score}&nbsp;/&nbsp;10</td>
+            <td class="col-mid"><span class="pill ${tone}">${pct}%</span></td>
+            <td class="col-end"><button type="button" class="btn btn-quiet" onclick="goToLesson(${l.id})">Refazer</button></td>
+          `;
+        } else {
+          tr.innerHTML = `
+            <td class="col-muted">Dia ${l.id}</td>
+            <td class="col-muted">${focus}</td>
+            <td class="col-mid col-muted">—</td>
+            <td class="col-mid"><span class="pill is-quiet">Não feito</span></td>
+            <td class="col-end"><button type="button" class="btn btn-quiet" onclick="goToLesson(${l.id})">Iniciar</button></td>
+          `;
+        }
+        tbody.appendChild(tr);
+      });
+    }
+
+    function goToLesson(id) {
+      switchTab("exercicios");
+      loadLesson(id);
+    }
+
+    function resetAllProgress() {
+      if (confirm("Atenção: deseja zerar todo o histórico dos 10 dias? Essa ação não pode ser desfeita.")) {
+        localStorage.removeItem("porcentagem_progress");
+        userProgress = {};
+        renderAnalytics();
+        loadLesson(currentLessonId);
+      }
+    }
+  </script>
+</body>
+</html>
