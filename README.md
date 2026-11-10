@@ -185,7 +185,7 @@ SAT, GRE e GMAT cobram porcentagem, variação percentual e variação sucessiva
 
 Um único arquivo HTML. Tailwind e Chart.js vêm de CDN; as fontes são Fraunces e Atkinson Hyperlegible. As dez aulas, a nota e a data ficam em `localStorage`, na chave `porcentagem_progress`. A preferência de tema fica em `porcentagem_theme`.
 
-O botão **Claro** / **Escuro**, na barra, troca o tema e guarda a escolha. Sem escolha salva, o app acompanha o tema do sistema. A correção aceita vírgula ou ponto. A análise mostra aulas feitas, taxa de acerto, a curva dos dez dias e o histórico.
+O botão **Claro** / **Escuro**, na barra, troca o tema e guarda a escolha. Sem escolha salva, o app acompanha o tema do sistema. O capelo ao lado abre um texto selecionável com a filosofia, a notação, a história e o uso em prova. A correção aceita vírgula ou ponto. A análise mostra aulas feitas, taxa de acerto, a curva dos dez dias e o histórico.
 
 ## Créditos
 

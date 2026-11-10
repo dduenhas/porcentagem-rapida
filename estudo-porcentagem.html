@@ -285,6 +285,172 @@
       }
     }
 
+    .cap-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: var(--well);
+      color: var(--ink);
+      box-shadow: var(--well-shadow);
+      cursor: pointer;
+      transition: transform 180ms var(--ease), filter 180ms var(--ease);
+    }
+
+    .cap-toggle:hover { filter: brightness(1.06); }
+    .cap-toggle:active { transform: scale(0.98); }
+
+    .cap-toggle:focus-visible,
+    .about-close:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .cap-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .cap-icon path,
+    .cap-icon circle { stroke-linecap: round; stroke-linejoin: round; }
+
+    .about {
+      width: min(44rem, calc(100vw - 32px));
+      max-height: min(84vh, 880px);
+      margin: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 18px;
+      background: var(--surface-solid);
+      color: var(--ink);
+      box-shadow: 0 24px 70px rgba(18, 17, 15, 0.28), 0 0 0 1px var(--line);
+    }
+
+    .about[open] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .about::backdrop {
+      background: rgba(18, 17, 15, 0.48);
+      backdrop-filter: blur(8px);
+    }
+
+    .about-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px 16px;
+      box-shadow: inset 0 -1px 0 var(--line);
+    }
+
+    .about-kicker {
+      margin: 0;
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+    }
+
+    .about-title {
+      margin: 2px 0 0;
+      font-size: 1.45rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .about-close {
+      flex: none;
+      height: 44px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--well);
+      color: var(--ink);
+      box-shadow: var(--well-shadow);
+      font: 700 0.875rem/1 "Atkinson Hyperlegible", sans-serif;
+      cursor: pointer;
+    }
+
+    .about-close:hover { filter: brightness(1.06); }
+    .about-close:active { transform: scale(0.98); }
+
+    .about-body {
+      overflow: auto;
+      padding: 8px 22px 28px;
+      user-select: text;
+      -webkit-user-select: text;
+      cursor: auto;
+    }
+
+    .about-body h3 {
+      margin: 28px 0 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .about-body p,
+    .about-body li {
+      font-size: 0.975rem;
+      line-height: 1.55;
+    }
+
+    .about-body p { margin: 0 0 12px; }
+
+    .about-body ul,
+    .about-body ol { margin: 0 0 14px; padding-left: 1.2rem; }
+
+    .about-body li + li { margin-top: 6px; }
+
+    .about-body a { color: var(--accent); }
+
+    .about-formula,
+    .about-body code {
+      font-family: "Atkinson Hyperlegible", sans-serif;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    .about-formula {
+      margin: 0 0 14px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      border-radius: 12px;
+      background: var(--well);
+      box-shadow: var(--well-shadow);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    .about-table-wrap { overflow-x: auto; margin: 0 0 14px; }
+
+    .about-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      user-select: text;
+    }
+
+    .about-table th,
+    .about-table td {
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .about-table th {
+      font-weight: 700;
+      color: var(--ink-soft);
+      border-top: 0;
+    }
+
     .page { margin-top: 28px; }
 
     .stack {
@@ -857,6 +1023,9 @@
       .q-card,
       .btn,
       .theme-toggle,
+      .cap-toggle,
+      .about-close,
+      .about[open],
       .history-table tbody tr {
         transition: none;
       }
@@ -880,6 +1049,14 @@
       </div>
 
       <div class="bar-tools">
+        <button type="button" class="cap-toggle" id="about-open" onclick="openAbout()" aria-haspopup="dialog" aria-controls="about-dialog" aria-label="Sobre o método e a sua história">
+          <svg class="cap-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M12 3.1 22.2 8.5 12 13.9 1.8 8.5 12 3.1Z"></path>
+            <path fill="none" stroke="currentColor" stroke-width="1.6" d="M6.6 11.1v3.7c0 1.8 2.4 3.3 5.4 3.3s5.4-1.5 5.4-3.3v-3.7"></path>
+            <path fill="none" stroke="currentColor" stroke-width="1.6" d="M19.6 9.5v5"></path>
+            <circle cx="19.6" cy="16.1" r="1.15" fill="currentColor"></circle>
+          </svg>
+        </button>
         <button type="button" class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-pressed="false" aria-label="Ativar modo claro">
           <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="4"></circle>
@@ -1003,6 +1180,153 @@
     </section>
 
   </main>
+
+  <dialog id="about-dialog" class="about" aria-labelledby="about-title">
+    <div class="about-head">
+      <div>
+        <p class="about-kicker">Caderno de estudo</p>
+        <h2 id="about-title" class="display about-title">O método e a sua história</h2>
+      </div>
+      <button type="button" class="about-close" onclick="closeAbout()">Fechar</button>
+    </div>
+    <div class="about-body">
+      <p>Caderno de cálculo mental para o método de corte de zeros e vírgula. Dez aulas, correção com o passo da técnica, e o progresso guardado no próprio navegador. Desenvolvimento do app de estudo por <a href="https://diegoduenhas.com.br">Diego Duenhas</a>.</p>
+
+      <h3>A filosofia</h3>
+      <p>Porcentagem não é uma operação nova. É uma multiplicação por uma taxa e uma divisão por 100. A divisão por 100 só desloca a vírgula duas casas para a esquerda. O método dá um nome de gesto a essa identidade, para que ela caiba na memória de trabalho no tempo de uma prova:</p>
+      <ol>
+        <li>Conte os zeros que já estão nos dois números.</li>
+        <li>Multiplique só o que sobra.</li>
+        <li>A vírgula anda o que ainda faltar para completar as duas casas que o símbolo % exige.</li>
+      </ol>
+      <p>A filosofia do treino segue o mesmo corte. Cada dia ensina um gesto só. A correção devolve o passo, não apenas certo ou errado. O histórico fica na máquina de quem estuda. O método não substitui a ideia de porcentagem. Ele organiza a aritmética para o caso direto, “quanto é p% de N”, quando a conta precisa sair de cabeça.</p>
+
+      <h3>Como o método funciona</h3>
+      <p>A definição é uma só:</p>
+      <pre class="about-formula">p% de N  =  (p / 100) × N  =  p × N × 10^(−2)</pre>
+      <p>Os zeros finais são potências de dez. Escreva a taxa e a base sem esses zeros:</p>
+      <pre class="about-formula">p = a × 10^m
+N = b × 10^n</pre>
+      <p>a e b são os números que sobram depois do corte. Então:</p>
+      <pre class="about-formula">p% de N  =  (a × b) × 10^(m + n − 2)</pre>
+      <p>O expoente m + n − 2 é a vírgula.</p>
+      <div class="about-table-wrap">
+        <table class="about-table">
+          <thead>
+            <tr><th>Expoente</th><th>O que fazer com a × b</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>O produto já é a resposta. Os dois zeros foram pagos.</td></tr>
+            <tr><td>−1</td><td>Recue a vírgula uma casa.</td></tr>
+            <tr><td>−2</td><td>Recue a vírgula duas casas.</td></tr>
+            <tr><td>maior que 0</td><td>Conserve os zeros que sobraram à direita.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Um zero que nasce na multiplicação também é um fator 10. Em 6% de 50:</p>
+      <pre class="about-formula">6 = 6 × 10^0
+50 = 5 × 10^1
+6 × 5 = 30 = 3 × 10^1
+expoente total = 1 + 0 + 1 − 2 = 0
+resultado = 3</pre>
+      <p>O gesto correspondente é: corta o zero de 50, multiplica 6 × 5 = 30, e corta o zero que apareceu. No Brasil, o ponto de 1.200 é separador de milhar. Os zeros que se cortam são os zeros finais do inteiro 1200, não a pontuação.</p>
+
+      <h3>Os dez gestos do caderno</h3>
+      <div class="about-table-wrap">
+        <table class="about-table">
+          <thead>
+            <tr><th>Dia</th><th>Foco</th><th>Exemplo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Dois zeros na base. m = 0, n = 2.</td><td>3% de 200 → 3 × 2 = 6</td></tr>
+            <tr><td>2</td><td>Um zero em cada fator. m = 1, n = 1.</td><td>30% de 40 → 3 × 4 = 12</td></tr>
+            <tr><td>3</td><td>Zeros repartidos, inclusive sobra. m + n ≥ 2.</td><td>6% de 1.200 → 6 × 12 = 72</td></tr>
+            <tr><td>4</td><td>O segundo zero nasce no produto.</td><td>6% de 50 → 6 × 5 = 30 → 3</td></tr>
+            <tr><td>5 e 6</td><td>Um zero só. Expoente −1.</td><td>20% de 13 → 2 × 13 = 26 → 2,6</td></tr>
+            <tr><td>7 e 8</td><td>Nenhum zero. Expoente −2.</td><td>3% de 24 → 3 × 24 = 72 → 0,72</td></tr>
+            <tr><td>9 e 10</td><td>Mistura. Escolher o expoente antes de multiplicar.</td><td>Identificação rápida</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>História: o que tem data</h3>
+      <p>O corte de zeros não foi descoberto num dia, por uma pessoa, com um nome de teorema. Ele é um jeito de ensinar uma identidade antiga. As datas abaixo são da ideia de “por cem”, da vírgula decimal e da proporção. O arranjo em aulas, do jeito que este caderno pratica, é didática recente de estudo para prova.</p>
+      <p><strong>Taxa por cem, bem antes do símbolo.</strong> No comércio antigo já se cobrava e se emprestava “por cento”: uma parte em cada cem. Em Roma, a centesima rerum venalium era um imposto de um centésimo sobre certas vendas, associado ao período de Augusto. Isso é uma taxa de 1/100, ainda sem o sinal %.</p>
+      <p><strong>A proporção que a escola herdou.</strong> A regra de três aparece em tratados indianos e chineses muito antes da Europa latina. Leonardo de Pisa, o Fibonacci, leva o cálculo comercial com algarismos indo-arábicos ao Liber abaci, de 1202. Luca Pacioli fixa essa aritmética de mercadores na Summa de arithmetica, de 1494. Niccolò Tartaglia, no século XVI, insiste na matemática prática de medidas, taxas e proporções. É dessa linhagem que sai a regra de três ensinada no Brasil.</p>
+      <p><strong>O sinal %.</strong> O latim per centum e o italiano per cento nomeiam a ideia. David Eugene Smith, em Rara Arithmetica (1908) e na History of Mathematics (1923), acompanha a abreviatura em manuscritos italianos. Antes de 1425 não há um símbolo próprio conhecido. Um texto de aritmética de 1339 ainda escreve formas como “per 100” e “p cento”. Por volta de 1435 aparece pc com um pequeno círculo no lugar do -o de cento. Em 1684 o desenho já é uma fração de dois círculos. Smith observa, em 1925, que a barra inclinada do % moderno é tardia. O sinal se consolida ao longo do século XIX. Uma curiosidade registrada por Keith Houston: o círculo do símbolo veio da abreviatura de cento, não do algarismo zero. O corte de zeros e o desenho do % não nasceram juntos.</p>
+      <p><strong>A vírgula que anda.</strong> Frações decimais já aparecem antes na matemática árabe, como em al-Uqlidisi, no século X, e em notações práticas como a de Christoff Rudolff, em 1530. Quem escreve o primeiro tratado curto e deliberado, e empurra o uso na Europa, é Simon Stevin. De Thiende sai em Leiden em 1585, no mesmo ano em francês como La Disme. Stevin mostra que multiplicar ou dividir por 10, 100 ou 1.000 é uma mudança de posição, não uma conta nova. O método deste app é essa observação aplicada ao denominador 100. A vírgula tipográfica que usamos hoje não é a notação de Stevin: ele marcava as casas com círculos numerados. A economia do gesto, porém, é a dele.</p>
+      <p><strong>O macete brasileiro.</strong> “Porcentagem em segundos”, “corte de zeros e ajusta a vírgula”, é um empacotamento didático que circula em cursinhos, canais e reportagens de concurso. Não há um descobridor, uma patente ou um artigo que date a invenção desse roteiro. Quem o usa hoje são candidatos e professores de raciocínio quantitativo. Sistemas vizinhos de cálculo mental, como o de Jakow Trachtenberg no século XX ou as apresentações de Arthur Benjamin, também encurtam contas, mas com outros gestos. Não são este método.</p>
+
+      <h3>O que a escola brasileira ensina</h3>
+      <p>A tradição escolar monta a proporção e resolve no papel:</p>
+      <pre class="about-formula">p / 100  =  x / N
+100x  =  p × N
+x  =  (p × N) / 100</pre>
+      <p>O resultado é o mesmo. O custo é outro: escrever a proporção, multiplicar números grandes e dividir por 100 no fim, quando a divisão era só uma vírgula. A outra via da escola transforma a taxa em decimal e multiplica: 15% de 300 vira 0,15 × 300. O aluno carrega a vírgula desde o começo, em vez de contá-la no expoente.</p>
+      <p>A Base Nacional Comum Curricular já pede outro caminho no 6º ano. A habilidade EF06MA13, no documento de 2018, p. 303, manda resolver problemas de porcentagem pela proporcionalidade, sem regra de três, com estratégia pessoal, cálculo mental e calculadora. O corte de zeros é uma dessas estratégias.</p>
+      <div class="about-table-wrap">
+        <table class="about-table">
+          <thead>
+            <tr><th></th><th>Regra de três</th><th>Decimal e produto</th><th>Corte de zeros</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ideia</td><td>Proporção</td><td>p/100 já na taxa</td><td>Potências de dez</td></tr>
+            <tr><td>O que se escreve</td><td>Três linhas e uma divisão</td><td>Um produto com vírgula</td><td>Um produto curto</td></tr>
+            <tr><td>Onde mora a vírgula</td><td>Na divisão final por 100</td><td>Dentro de 0,p</td><td>No expoente m + n − 2</td></tr>
+            <tr><td>Quando brilha</td><td>Relação inversa: ache N</td><td>Fator de aumento e desconto</td><td>p% de N direto</td></tr>
+            <tr><td>Risco típico</td><td>Armar a proporção invertida</td><td>Perder uma casa decimal</td><td>Contar zero a mais ou a menos</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Para 15% de 300, a regra de três escreve 15/100 = x/300, depois 100x = 4500 e x = 45. O corte vê que 300 aporta 10^2, faz 15 × 3 = 45 e o expoente 2 − 2 = 0. Não existe ensaio publicado que converta essa diferença de passos numa nota de SAT, GRE, GMAT ou PISA para este macete. A vantagem que se pode afirmar é operacional: menos dígitos na memória e nenhuma divisão final, quando a pergunta já é “calcule p% de N”.</p>
+
+      <h3>Concursos e provas</h3>
+      <p>Em concurso público a porcentagem entra em matemática, raciocínio lógico, administração, atualidades econômicas e provas de área bancária e fiscal. O item direto existe, e nele o corte devolve minutos. O item que decide a nota costuma ser um destes:</p>
+      <ul>
+        <li><strong>Aumento e desconto.</strong> Aumento de p% multiplica por 1 + p/100. Desconto de p% multiplica por 1 − p/100. Em R$ 300 com 20% de aumento, o corte dá 2 × 30 = 60, e o novo preço é 360.</li>
+        <li><strong>Sucessivos.</strong> As taxas não se somam. +10% e depois +20% são 1,10 × 1,20 = 1,32, um aumento de 32%. +20% seguido de −20% dá 1,20 × 0,80 = 0,96, uma queda de 4%.</li>
+        <li><strong>Parte e todo invertidos.</strong> “40% de um valor é 80” pede a base desconhecida. A regra de três continua o instrumento certo.</li>
+        <li><strong>Base 100.</strong> Se o enunciado só fala em taxas, supor o todo igual a 100 transforma cada porcentagem no próprio número.</li>
+        <li><strong>Troca.</strong> 16% de 50 é 50% de 16, porque a multiplicação comuta. Vale 8 dos dois lados.</li>
+      </ul>
+      <p>Bancas como Cebraspe, FCC, FGV e Vunesp repetem esse repertório. O caderno treina o núcleo rápido. Aumento, desconto e sucessão são o passo seguinte, com a mesma aritmética.</p>
+
+      <h3>Exames internacionais</h3>
+      <p>O PISA não mede este macete. Mede matemática de jovens de 15 anos. No PISA 2022, o Brasil fez 379 pontos em matemática, e a média da OCDE foi 472. Cerca de 27% dos estudantes brasileiros alcançaram pelo menos o nível 2, contra 69% na média da OCDE. Cerca de 1% chegaram aos níveis 5 ou 6, contra 9%. Os dados são do relatório da OCDE, de dezembro de 2023. Esse fosso descreve a escola, não um experimento com corte de zeros.</p>
+      <p>SAT, GRE e GMAT cobram porcentagem e variação sucessiva com limite de tempo. O material internacional ensina a mesma identidade, em geral por âncoras de 1%, 10%, 25% e 50%, não pelo roteiro brasileiro dos zeros. Não há estudo do College Board, da ETS ou do GMAC comparando o corte de zeros com a regra de três. Prometer ponto a mais em prova internacional por causa do macete seria inventar um resultado.</p>
+
+      <h3>Benefícios</h3>
+      <ul>
+        <li>A conta direta cabe em um produto curto. A vírgula é uma decisão, não uma divisão armada.</li>
+        <li>O gesto é o mesmo do 1º ao 10º dia. Muda só quantos zeros existem.</li>
+        <li>Treinado, o padrão sobrevive ao relógio de uma prova objetiva.</li>
+        <li>A explicação cabe numa linha, então o erro de contagem pode ser revisto.</li>
+        <li>Conversa com a habilidade EF06MA13: estratégia pessoal e cálculo mental, sem instalar a regra de três como único caminho.</li>
+      </ul>
+
+      <h3>Limitações</h3>
+      <ul>
+        <li>Errar a contagem de zeros erra o resultado inteiro. Um zero a mais desloca a vírgula uma casa.</li>
+        <li>Zero no meio do número não se corta. Em 101, o zero não é fator de dez final.</li>
+        <li>O ponto de milhar brasileiro (1.200) não é vírgula decimal.</li>
+        <li>Porcentagem de porcentagem, sucessão, juros compostos e “ache a taxa” pedem um passo que o corte sozinho não faz.</li>
+        <li>O produto a × b ainda precisa ser calculado. 47% de 83 continua uma multiplicação de dois números. O método só tira o /100.</li>
+        <li>Não é outro resultado matemático. Quem domina a regra de três com capricho chega no mesmo número.</li>
+      </ul>
+
+      <h3>Curiosidades</h3>
+      <ul>
+        <li>O % não é “dois zeros cortados por uma barra” na origem. Os círculos vêm da abreviatura de cento.</li>
+        <li>p% de N e N% de p são o mesmo número. A comutatividade é um atalho de prova.</li>
+        <li>Stevin escreveu De Thiende para medidores de vinho, mercadores e mestres de moeda. O candidato sob o relógio está mais perto desse leitor do que de um tratado.</li>
+        <li>Duas casas decimais são exatamente o par de zeros do percentual. Andar a vírgula e cortar zero são o mesmo ato visto de dois lados.</li>
+        <li>Desconto e aumento da mesma taxa não se anulam. +20% e −20%, nessa ordem, deixam 96% do valor inicial.</li>
+      </ul>
+
+      <h3>Créditos</h3>
+      <p>App de estudo desenvolvido por Diego Duenhas, <a href="https://diegoduenhas.com.br">diegoduenhas.com.br</a>. A aritmética é de domínio comum. O desenho das aulas, a interface e este texto de estudo são do app.</p>
+    </div>
+  </dialog>
 
   <script>
     const lessonsData = [
@@ -1233,6 +1557,16 @@
       if (meta) meta.setAttribute("content", theme === "dark" ? "#12110f" : "#f4f1ea");
     }
 
+    function openAbout() {
+      const dialog = document.getElementById("about-dialog");
+      if (!dialog.open) dialog.showModal();
+    }
+
+    function closeAbout() {
+      const dialog = document.getElementById("about-dialog");
+      if (dialog.open) dialog.close();
+    }
+
     function toggleTheme() {
       const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
@@ -1242,6 +1576,10 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+      const about = document.getElementById("about-dialog");
+      about.addEventListener("click", (event) => {
+        if (event.target === about) about.close();
+      });
       syncThemeControl();
       populateLessonSelect();
       loadLesson(1);
