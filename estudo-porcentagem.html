@@ -282,6 +282,7 @@
     .icon-btn { width: 36px; padding: 0; justify-content: center; background: transparent; }
     .icon-btn svg, .text-btn svg { width: 18px; height: 18px; }
     .icon-btn:hover, .text-btn:hover { background: var(--well); }
+    .icon-btn.is-reset:hover { color: var(--cinnabar); }
     .icon-btn:active, .text-btn:active, .btn:active { transform: scale(0.98); }
 
     .theme-icon-moon { display: none; }
@@ -1051,6 +1052,12 @@
             <circle cx="19.6" cy="16.1" r="1.15" fill="currentColor"></circle>
           </svg>
           <span class="hist-label">História do método</span>
+        </button>
+        <button type="button" class="icon-btn is-reset" id="reset-progress" onclick="resetAllProgress()" aria-label="Reiniciar progresso" title="Reiniciar progresso">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.6 12a8.4 8.4 0 1 0 2.1-5.7"></path>
+            <path d="M3.4 4.6V9h4.4"></path>
+          </svg>
         </button>
         <button type="button" class="icon-btn" id="theme-toggle" onclick="toggleTheme()" aria-pressed="false" aria-label="Ativar modo claro">
           <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
