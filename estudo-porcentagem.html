@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" id="theme-color" content="#f4f1ea">
+  <meta name="theme-color" id="theme-color" content="#faf9f7">
   <script>
     (function () {
       var theme = "light";
@@ -20,72 +20,85 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Fraunces:SOFT,opsz,wght@30..70,9..144,500..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: #f4f1ea;
-      --ink: #1c1917;
-      --ink-soft: rgba(28, 25, 23, 0.64);
-      --ink-faint: rgba(28, 25, 23, 0.38);
-      --surface-solid: #fbf9f4;
-      --well: #e6e0d4;
-      --line: rgba(28, 25, 23, 0.10);
-      --accent: #9a3412;
-      --accent-fill: #9a3412;
-      --accent-ink: #fff8f3;
-      --accent-soft: rgba(154, 52, 18, 0.14);
-      --ok: #1b7a43;
-      --ok-soft: rgba(27, 122, 67, 0.12);
-      --bad: #b42318;
-      --bad-soft: rgba(180, 35, 24, 0.10);
-      --fill: #1c1917;
-      --fill-ink: #f4f1ea;
-      --bar: rgba(244, 241, 234, 0.8);
-      --well-shadow: inset 0 1px 2px rgba(28, 25, 23, 0.16);
-      --thumb-highlight: rgba(255, 255, 255, 0.7);
-      --thumb-shadow: rgba(28, 25, 23, 0.12);
-      --hover: rgba(28, 25, 23, 0.045);
-      --radius-card: 14px;
-      --radius-field: 12px;
+      --paper: #faf9f7;
+      --paper-dot: #e5e1d8;
+      --ink: #1a1918;
+      --ink-body: #2d2b28;
+      --muted: #615e5a;
+      --faint: #7d7971;
+      --placeholder: #a8a39a;
+      --card: #ffffff;
+      --sheet: #f5f3ef;
+      --well: #eae7e0;
+      --well-focus: #faf9f7;
+      --line: #e6e3dd;
+      --line-strong: #d5d1c8;
+      --cinnabar: #c53027;
+      --cinnabar-deep: #a21412;
+      --cinnabar-soft: #ffdad5;
+      --on-cinnabar: #ffffff;
+      --ink-btn: #1a1918;
+      --ink-btn-text: #f9f8f6;
+      --ok-bg: #ebf4ed;
+      --ok-line: #b8dec0;
+      --ok-ink: #1c542b;
+      --ok-well: #e5efe7;
+      --bad-bg: #fceeef;
+      --bad-line: #f2bfc4;
+      --bad-ink: #82222b;
+      --bad-well: #f7e1e3;
+      --segment: #e6e3dd;
+      --shadow: 0 4px 16px rgba(26, 25, 24, 0.06);
+      --chart-line: #1a1918;
+      --chart-fill: rgba(26, 25, 24, 0.06);
+      --chart-alert: #c53027;
+      --chart-ok: #1c542b;
+      --chart-grid: rgba(26, 25, 24, 0.08);
+      --chart-tick: #615e5a;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
-      --dur: 220ms;
-      --dur-slow: 280ms;
-      --chart-line: #9a3412;
-      --chart-fill: rgba(154, 52, 18, 0.12);
-      --chart-point: #1c1917;
-      --chart-grid: rgba(28, 25, 23, 0.08);
-      --chart-tick: rgba(28, 25, 23, 0.58);
+      --dur: 180ms;
       color-scheme: light;
     }
 
     html[data-theme="dark"] {
-        --paper: #12110f;
-        --ink: #f3efe6;
-        --ink-soft: rgba(243, 239, 230, 0.66);
-        --ink-faint: rgba(243, 239, 230, 0.40);
-        --surface-solid: #1c1b19;
-        --well: #0e0d0c;
-        --line: rgba(243, 239, 230, 0.10);
-        --accent: #f0b089;
-        --accent-fill: #e39a6e;
-        --accent-ink: #2a140c;
-        --accent-soft: rgba(224, 138, 93, 0.20);
-        --ok: #3dd68c;
-        --ok-soft: rgba(61, 214, 140, 0.14);
-        --bad: #ff7a70;
-        --bad-soft: rgba(255, 122, 112, 0.14);
-        --fill: #f3efe6;
-        --fill-ink: #1c1917;
-        --bar: rgba(18, 17, 15, 0.78);
-        --well-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55);
-        --thumb-highlight: rgba(255, 255, 255, 0.08);
-        --thumb-shadow: rgba(0, 0, 0, 0.45);
-        --hover: rgba(243, 239, 230, 0.045);
-        --chart-line: #e39a6e;
-        --chart-fill: rgba(227, 154, 110, 0.16);
-        --chart-point: #f3efe6;
-        --chart-grid: rgba(243, 239, 230, 0.08);
-        --chart-tick: rgba(243, 239, 230, 0.62);
+      --paper: #141311;
+      --paper-dot: #2c2823;
+      --ink: #f4f1ea;
+      --ink-body: #e7e1d6;
+      --muted: #b7b0a4;
+      --faint: #8c857a;
+      --placeholder: #6f685f;
+      --card: #1c1b18;
+      --sheet: #191816;
+      --well: #100f0d;
+      --well-focus: #221f1c;
+      --line: #3a342e;
+      --line-strong: #4e463d;
+      --cinnabar: #e36b62;
+      --cinnabar-deep: #ffb4aa;
+      --cinnabar-soft: #3a1c1a;
+      --on-cinnabar: #2a0d0b;
+      --ink-btn: #f4f1ea;
+      --ink-btn-text: #141311;
+      --ok-bg: #17261c;
+      --ok-line: #3d6b4a;
+      --ok-ink: #b7e0c2;
+      --ok-well: #142018;
+      --bad-bg: #2a171a;
+      --bad-line: #7a3d44;
+      --bad-ink: #f0b8be;
+      --bad-well: #241316;
+      --segment: #2a2723;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      --chart-line: #f4f1ea;
+      --chart-fill: rgba(244, 241, 234, 0.06);
+      --chart-alert: #e36b62;
+      --chart-ok: #8fceb0;
+      --chart-grid: rgba(244, 241, 234, 0.08);
+      --chart-tick: #b7b0a4;
       color-scheme: dark;
     }
 
@@ -94,531 +107,390 @@
     body {
       margin: 0;
       min-height: 100vh;
-      padding-bottom: 64px;
-      font-family: "Atkinson Hyperlegible", "Segoe UI", sans-serif;
-      font-size: 16px;
-      line-height: 1.45;
       color: var(--ink);
-      background:
-        radial-gradient(880px 300px at 50% -140px, var(--accent-soft), transparent 70%),
-        var(--paper);
+      background-color: var(--paper);
+      background-image: radial-gradient(var(--paper-dot) 0.75px, transparent 0.75px);
+      background-size: 24px 24px;
+      font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
       font-variant-numeric: tabular-nums lining-nums;
       -webkit-font-smoothing: antialiased;
     }
 
-    button, input, select { font-family: inherit; color: inherit; }
+    button, input, select { font: inherit; color: inherit; }
     button, select { -webkit-tap-highlight-color: transparent; }
-
-    ::selection {
-      background: var(--accent-soft);
-      color: var(--ink);
-    }
+    button { cursor: pointer; }
+    ::selection { background: var(--cinnabar-soft); color: var(--ink); }
 
     .display {
-      font-family: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
-      font-optical-sizing: auto;
-      font-weight: 560;
-      font-variation-settings: "SOFT" 40, "opsz" 72, "wght" 560;
+      font-family: Newsreader, "Iowan Old Style", Palatino, Georgia, serif;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-variant-numeric: tabular-nums;
     }
 
     .bar {
       position: sticky;
       top: 0;
-      z-index: 40;
-      background: var(--bar);
-      backdrop-filter: blur(18px) saturate(1.4);
-      -webkit-backdrop-filter: blur(18px) saturate(1.4);
-      box-shadow: inset 0 -1px 0 var(--line);
+      z-index: 30;
+      background: color-mix(in srgb, var(--paper) 92%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line-strong);
     }
 
     .bar-inner {
       min-height: 64px;
-      padding-top: 10px;
-      padding-bottom: 10px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
     }
 
-    .logo {
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      justify-self: start;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      position: relative;
       width: 36px;
       height: 36px;
       flex: none;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: var(--sheet);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 600;
+      font-size: 16px;
+      overflow: hidden;
     }
 
-    .logo circle { fill: var(--ink); }
-    .logo path {
-      fill: none;
-      stroke: var(--accent);
-      stroke-width: 2.2;
-      stroke-linecap: round;
+    .logo-cut {
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      top: 50%;
+      height: 1.5px;
+      background: var(--cinnabar);
+      transform: translateY(-50%) rotate(-45deg);
     }
 
     .brand {
-      font-size: 1.25rem;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
+      display: block;
+      font-size: 22px;
+      color: var(--ink);
     }
 
     .brand-sub {
-      margin-top: 3px;
-      font-size: 0.75rem;
-      color: var(--ink-soft);
-    }
-
-    .segmented {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-width: 236px;
-      padding: 3px;
-      border-radius: 999px;
-      background: var(--well);
-      box-shadow: var(--well-shadow);
-    }
-
-    .segment-thumb {
-      position: absolute;
-      z-index: 0;
-      top: 3px;
-      bottom: 3px;
-      left: 3px;
-      width: calc(50% - 3px);
-      border-radius: 999px;
-      background: var(--surface-solid);
-      box-shadow:
-        0 1px 2px var(--thumb-shadow),
-        inset 0 1px 0 var(--thumb-highlight);
-      transition: transform var(--dur-slow) var(--ease);
-    }
-
-    .segmented.is-analise .segment-thumb { transform: translateX(100%); }
-
-    .segment {
-      position: relative;
-      z-index: 1;
-      height: 38px;
-      padding: 0 16px;
-      border: 0;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--ink-soft);
-      font-size: 0.875rem;
-      font-weight: 400;
-      cursor: pointer;
-    }
-
-    .segment.is-on { color: var(--ink); font-weight: 700; }
-
-    .segment:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px var(--accent-soft);
+      display: block;
+      margin-top: 1px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
     }
 
     .bar-tools {
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .theme-toggle {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
       gap: 8px;
-      height: 44px;
-      padding: 0 14px 0 12px;
-      border: 0;
+      justify-self: end;
+    }
+
+    .segmented {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 3px;
       border-radius: 999px;
-      background: var(--well);
+      background: var(--segment);
+      border: 1px solid var(--line-strong);
+      justify-self: center;
+    }
+
+    .segment {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+
+    .segment.is-on {
+      background: var(--card);
       color: var(--ink);
-      box-shadow: var(--well-shadow);
-      font-size: 0.875rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 180ms var(--ease), filter 180ms var(--ease);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
     }
 
-    .theme-toggle:hover { filter: brightness(1.06); }
-    .theme-toggle:active { transform: scale(0.98); }
-
-    .theme-toggle:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px var(--accent-soft);
-    }
-
-    .theme-icon {
-      width: 16px;
-      height: 16px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .theme-icon-moon { fill: currentColor; stroke: none; }
-
-    .theme-icon-sun { display: none; }
-
-    html[data-theme="dark"] .theme-icon-sun { display: block; }
-    html[data-theme="dark"] .theme-icon-moon { display: none; }
-
-    .theme-label-escuro { display: none; }
-
-    html[data-theme="light"] .theme-label-claro { display: none; }
-    html[data-theme="light"] .theme-label-escuro { display: inline; }
-
-    @media (max-width: 420px) {
-      .theme-label {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-      }
-
-      .theme-toggle {
-        width: 44px;
-        padding: 0;
-      }
-    }
-
-    .cap-toggle {
+    .icon-btn, .text-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      border: 0;
+      gap: 6px;
       border-radius: 999px;
-      background: var(--well);
+      border: 1px solid var(--line-strong);
+      background: var(--sheet);
       color: var(--ink);
-      box-shadow: var(--well-shadow);
-      cursor: pointer;
-      transition: transform 180ms var(--ease), filter 180ms var(--ease);
+      height: 36px;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
     }
 
-    .cap-toggle:hover { filter: brightness(1.06); }
-    .cap-toggle:active { transform: scale(0.98); }
+    .icon-btn { width: 36px; padding: 0; justify-content: center; background: transparent; }
+    .icon-btn svg, .text-btn svg { width: 18px; height: 18px; }
+    .icon-btn:hover, .text-btn:hover { background: var(--well); }
+    .icon-btn:active, .text-btn:active, .btn:active { transform: scale(0.98); }
 
-    .cap-toggle:focus-visible,
-    .about-close:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px var(--accent-soft);
-    }
+    .theme-icon-moon { display: none; }
+    html[data-theme="dark"] .theme-icon-sun { display: none; }
+    html[data-theme="dark"] .theme-icon-moon { display: block; }
 
-    .cap-icon {
-      width: 22px;
-      height: 22px;
-    }
+    .page { padding: 32px 0 48px; }
 
-    .cap-icon path,
-    .cap-icon circle { stroke-linecap: round; stroke-linejoin: round; }
-
-    .about {
-      width: min(44rem, calc(100vw - 32px));
-      max-height: min(84vh, 880px);
-      margin: auto;
-      padding: 0;
-      border: 0;
-      border-radius: 18px;
-      background: var(--surface-solid);
-      color: var(--ink);
-      box-shadow: 0 24px 70px rgba(18, 17, 15, 0.28), 0 0 0 1px var(--line);
-    }
-
-    .about[open] {
+    .lesson-bar {
       display: flex;
-      flex-direction: column;
-    }
-
-    .about::backdrop {
-      background: rgba(18, 17, 15, 0.48);
-      backdrop-filter: blur(8px);
-    }
-
-    .about-head {
-      display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 20px 22px 16px;
-      box-shadow: inset 0 -1px 0 var(--line);
-    }
-
-    .about-kicker {
-      margin: 0;
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
-    }
-
-    .about-title {
-      margin: 2px 0 0;
-      font-size: 1.45rem;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
-
-    .about-close {
-      flex: none;
-      height: 44px;
-      padding: 0 16px;
-      border: 0;
-      border-radius: 999px;
-      background: var(--well);
-      color: var(--ink);
-      box-shadow: var(--well-shadow);
-      font: 700 0.875rem/1 "Atkinson Hyperlegible", sans-serif;
-      cursor: pointer;
-    }
-
-    .about-close:hover { filter: brightness(1.06); }
-    .about-close:active { transform: scale(0.98); }
-
-    .about-body {
-      overflow: auto;
-      padding: 8px 22px 28px;
-      user-select: text;
-      -webkit-user-select: text;
-      cursor: auto;
-    }
-
-    .about-body h3 {
-      margin: 28px 0 8px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .about-body p,
-    .about-body li {
-      font-size: 0.975rem;
-      line-height: 1.55;
-    }
-
-    .about-body p { margin: 0 0 12px; }
-
-    .about-body ul,
-    .about-body ol { margin: 0 0 14px; padding-left: 1.2rem; }
-
-    .about-body li + li { margin-top: 6px; }
-
-    .about-body a { color: var(--accent); }
-
-    .about-formula,
-    .about-body code {
-      font-family: "Atkinson Hyperlegible", sans-serif;
-      font-variant-numeric: tabular-nums lining-nums;
-    }
-
-    .about-formula {
-      margin: 0 0 14px;
-      padding: 12px 14px;
-      overflow-x: auto;
-      border-radius: 12px;
-      background: var(--well);
-      box-shadow: var(--well-shadow);
-      font-size: 0.92rem;
-      line-height: 1.55;
-      white-space: pre-wrap;
-      user-select: text;
-      -webkit-user-select: text;
-    }
-
-    .about-table-wrap { overflow-x: auto; margin: 0 0 14px; }
-
-    .about-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-      user-select: text;
-    }
-
-    .about-table th,
-    .about-table td {
-      padding: 10px 12px;
-      border-top: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    .about-table th {
-      font-weight: 700;
-      color: var(--ink-soft);
-      border-top: 0;
-    }
-
-    .page { margin-top: 28px; }
-
-    .stack {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .sheet {
-      background: var(--surface-solid);
-      border-radius: var(--radius-card);
-      box-shadow: 0 0 0 1px var(--line);
-      padding: 20px;
-    }
-
-    .lesson-head {
-      display: flex;
+      gap: 12px;
       flex-wrap: wrap;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
     }
 
-    .field-label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
-    }
-
-    .select-wrap {
+    .lesson-pill {
       position: relative;
-      min-width: min(100%, 340px);
-      flex: 1 1 280px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 4px 12px 4px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: var(--sheet);
+    }
+
+    .lesson-kicker {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .lesson-pill .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--line-strong);
     }
 
     .select {
       appearance: none;
-      width: 100%;
-      height: 44px;
-      padding: 0 40px 0 14px;
       border: 0;
-      border-radius: var(--radius-field);
-      background: var(--well);
-      box-shadow: var(--well-shadow);
-      font-size: 1rem;
-      font-weight: 700;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 22px 4px 0;
+      max-width: min(420px, 70vw);
       cursor: pointer;
-      transition: box-shadow var(--dur) var(--ease);
     }
 
-    .select:focus-visible {
-      outline: none;
-      box-shadow: var(--well-shadow), 0 0 0 4px var(--accent-soft);
-    }
+    .select:focus { outline: none; }
+    .lesson-pill:focus-within { box-shadow: inset 0 -2px 0 var(--cinnabar); }
 
     .chevron {
       position: absolute;
-      right: 14px;
-      bottom: 16px;
+      right: 12px;
       width: 12px;
       height: 12px;
-      fill: var(--ink-soft);
+      fill: var(--muted);
       pointer-events: none;
     }
 
-    .score-badge {
+    .lesson-count {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .rule {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 2px;
-      min-height: 44px;
-      padding: 8px 14px;
-      border-radius: 12px;
+      align-items: center;
+      margin: 14px 0 4px;
     }
 
-    .score-badge.is-ok { color: var(--ok); background: var(--ok-soft); }
-    .score-badge.is-mid { color: var(--accent); background: var(--accent-soft); }
+    .rule span { flex: 1; height: 1px; background: var(--line-strong); }
+    .rule i { width: 48px; height: 2px; margin: 0 8px; border-radius: 999px; background: var(--cinnabar); }
 
-    .score-badge-value {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .technique {
+      background: var(--sheet);
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 24px;
     }
 
-    .score-badge-meta {
-      font-size: 0.75rem;
-      font-weight: 400;
-      color: var(--ink-soft);
+    .kicker {
+      margin: 0;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--cinnabar-deep);
+      font-weight: 500;
     }
 
-    .tip {
-      --tip-bg: color-mix(in srgb, var(--accent) 8%, var(--surface-solid));
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 12px;
-      background: var(--tip-bg);
-    }
-
-    .cut {
-      position: relative;
-      flex: none;
-      width: 36px;
-      height: 3px;
-      margin-top: 27px;
-      border-radius: 3px;
-      background: var(--accent);
-    }
-
-    .cut i {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      transform: translateX(-50%);
-      background: var(--tip-bg);
-      transition: width 320ms var(--ease);
-    }
-
-    .tip.is-cut .cut i { width: 5px; }
-
-    .tip-kicker {
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
-    }
-
-    .tip-title {
-      margin-top: 2px;
-      font-size: 1.2rem;
-      line-height: 1.25;
-      letter-spacing: -0.02em;
+    .technique h2 {
+      margin: 4px 0 8px;
+      font-size: 32px;
     }
 
     .tip-text {
-      margin-top: 6px;
-      font-size: 0.9375rem;
-      line-height: 1.45;
-      color: var(--ink-soft);
+      margin: 0;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 15px;
     }
+
+    .tip-text strong { color: var(--ink); font-weight: 700; }
+
+    .demo {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+    }
+
+    .demo-eq {
+      margin: 0;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+
+    .demo-muted { color: var(--muted); font-weight: 400; }
+    .demo-accent { color: var(--cinnabar-deep); font-weight: 600; }
+    .demo-strong { font-weight: 700; }
+
+    .cut-digit {
+      position: relative;
+      display: inline-block;
+      color: var(--muted);
+    }
+
+    .cut-digit::after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      right: -2px;
+      top: 54%;
+      height: 1.5px;
+      border-radius: 1px;
+      background: var(--cinnabar);
+      transform: translateY(-50%) rotate(-12deg);
+    }
+
+    .demo-note {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--sheet);
+      color: var(--muted);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+    }
+
+    .demo-note i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cinnabar);
+      flex: none;
+    }
+
+    .practice-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 4px;
+    }
+
+    .practice-head h2 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .metronome {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .metro-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cinnabar);
+    }
+
+    .metronome.is-live .metro-dot { animation: pulse 1.4s var(--ease) infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    #metronome-time { color: var(--ink); font-weight: 500; }
 
     .q-card {
       display: flex;
       flex-direction: column;
-      padding: 16px 18px 18px;
-      border-radius: var(--radius-card);
-      background: var(--surface-solid);
-      box-shadow: 0 0 0 1px var(--line);
-      animation: rise 340ms var(--ease) both;
-      transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+      gap: 12px;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+      animation: rise 360ms var(--ease) both;
     }
 
-    .q-card:hover:not(.is-correct):not(.is-wrong) {
-      box-shadow: 0 0 0 1px var(--line), 0 10px 24px var(--hover);
-    }
-
-    .q-card.is-correct {
-      background: color-mix(in srgb, var(--ok) 10%, var(--surface-solid));
-      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ok) 45%, transparent);
-    }
-
-    .q-card.is-wrong {
-      background: color-mix(in srgb, var(--bad) 9%, var(--surface-solid));
-      box-shadow: 0 0 0 1px color-mix(in srgb, var(--bad) 42%, transparent);
-    }
+    .q-card:hover { border-color: var(--faint); }
 
     .q-card-top {
       display: flex;
@@ -629,199 +501,134 @@
     }
 
     .q-index {
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
-    }
-
-    .q-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-top: 12px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--muted);
     }
 
     .q-eq {
-      flex: 1;
-      min-width: 0;
       margin: 0;
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
     }
 
-    .mark {
-      color: var(--accent);
-      font-family: Fraunces, Palatino, Georgia, serif;
-      font-weight: 560;
-      font-variation-settings: "SOFT" 50, "opsz" 48, "wght" 560;
-    }
+    .mark { color: inherit; }
 
     .well {
       position: relative;
       display: flex;
       align-items: center;
-      flex: 0 0 auto;
-      width: 9.5rem;
       height: 52px;
-      padding: 0 14px 0 12px;
-      border-radius: var(--radius-field);
+      padding: 0 14px;
+      border-radius: 8px;
       background: var(--well);
-      box-shadow: var(--well-shadow);
-      transition: box-shadow 240ms var(--ease);
+      border: 1px solid transparent;
     }
 
     .well-prefix {
       margin-right: 8px;
-      color: var(--ink-faint);
-      font-weight: 700;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 20px;
+      color: var(--faint);
+      user-select: none;
     }
 
     .well-input {
       width: 100%;
-      min-width: 0;
-      padding: 0 0 6px;
       border: 0;
+      padding: 0;
       background: transparent;
-      text-align: right;
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      font-variant-numeric: tabular-nums lining-nums;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      outline: none;
     }
 
-    .well-input::placeholder {
-      color: var(--ink-faint);
-      font-weight: 400;
-    }
-
-    .well-input:focus { outline: none; }
-
-    .well-line {
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 8px;
-      height: 2px;
-      border-radius: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform var(--dur-slow) var(--ease), background var(--dur) var(--ease);
-    }
+    .well-input::placeholder { color: var(--placeholder); font-weight: 400; }
 
     .well:focus-within {
-      box-shadow: 0 0 0 4px var(--accent-soft);
+      background: var(--well-focus);
+      border-color: var(--line-strong);
+      box-shadow: inset 0 -2px 0 var(--cinnabar);
     }
 
-    .well:focus-within .well-line { transform: scaleX(1); }
-
-    .q-card.is-wrong .well {
-      box-shadow: inset 0 0 0 1.5px var(--bad);
+    .q-card.is-correct {
+      background: var(--ok-bg);
+      border-color: var(--ok-line);
     }
 
-    .q-card.is-wrong .well:focus-within {
-      box-shadow: inset 0 0 0 1.5px var(--bad), 0 0 0 4px var(--bad-soft);
-    }
-
-    .q-card.is-wrong .well-line {
-      background: var(--bad);
-      transform: scaleX(1);
-    }
+    .q-card.is-correct .q-index,
+    .q-card.is-correct .q-eq { color: var(--ok-ink); }
 
     .q-card.is-correct .well {
-      box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ok) 70%, transparent);
+      background: var(--ok-well);
+      border-color: var(--ok-line);
+      box-shadow: none;
     }
 
-    .q-card.is-correct .well:focus-within {
-      box-shadow:
-        inset 0 0 0 1.5px color-mix(in srgb, var(--ok) 70%, transparent),
-        0 0 0 4px var(--ok-soft);
+    .q-card.is-wrong {
+      background: var(--bad-bg);
+      border-color: var(--bad-line);
     }
 
-    .q-card.is-correct .well:focus-within .well-line {
-      background: var(--ok);
-      transform: scaleX(1);
-    }
+    .q-card.is-wrong .q-index,
+    .q-card.is-wrong .q-eq { color: var(--bad-ink); }
 
-    .q-feedback {
-      max-height: 0;
-      margin-top: 0;
-      padding-top: 0;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(4px);
-      font-size: 0.875rem;
-      line-height: 1.45;
-      color: var(--ink-soft);
-      transition:
-        max-height var(--dur-slow) var(--ease),
-        opacity var(--dur) var(--ease),
-        transform var(--dur-slow) var(--ease),
-        margin-top var(--dur-slow) var(--ease),
-        padding-top var(--dur-slow) var(--ease);
+    .q-card.is-wrong .well {
+      background: var(--bad-well);
+      border-color: var(--bad-line);
+      box-shadow: none;
     }
-
-    .q-card.is-correct .q-feedback,
-    .q-card.is-wrong .q-feedback {
-      max-height: 8rem;
-      margin-top: 14px;
-      padding-top: 12px;
-      opacity: 1;
-      transform: none;
-      box-shadow: inset 0 1px 0 var(--line);
-    }
-
-    .fb-label { font-weight: 700; color: var(--ink); }
-    .q-card.is-correct .fb-label { color: var(--ok); }
-    .q-card.is-wrong .fb-label { color: var(--bad); }
 
     .pill {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      min-height: 22px;
       padding: 2px 8px;
       border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
     }
 
-    .pill.is-ok { color: var(--ok); background: var(--ok-soft); }
-    .pill.is-bad { color: var(--bad); background: var(--bad-soft); }
-    .pill.is-mid { color: var(--accent); background: var(--accent-soft); }
-    .pill.is-quiet { color: var(--ink-soft); background: var(--well); }
+    .pill svg { width: 14px; height: 14px; }
+    .pill.is-ok { background: var(--ok-well); color: var(--ok-ink); }
+    .pill.is-bad { background: var(--bad-well); color: var(--bad-ink); }
+    .pill.is-quiet, .pill.is-mid { background: var(--sheet); color: var(--muted); border: 1px solid var(--line-strong); }
+    .pill.is-mid { color: var(--cinnabar-deep); background: var(--cinnabar-soft); border-color: transparent; }
 
-    .draw {
-      width: 14px;
-      height: 14px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2.4;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .draw { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .draw path { stroke-dasharray: 24; stroke-dashoffset: 24; animation: draw 400ms var(--ease) forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+
+    .q-feedback {
+      display: flex;
+      gap: 6px;
+      margin: 0;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--ink-body);
     }
 
-    .draw path {
-      stroke-dasharray: 22;
-      stroke-dashoffset: 22;
-      animation: draw 320ms var(--ease) forwards;
-    }
+    .q-feedback[hidden] { display: none; }
+    .q-card.is-wrong .q-feedback { color: var(--bad-ink); border-top-color: var(--bad-line); }
+    .q-card.is-correct .q-feedback { color: var(--ok-ink); border-top-color: var(--ok-line); }
+    .fb-label { font-weight: 700; }
 
     .actions {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-    }
-
-    .actions-main {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line-strong);
     }
 
     .btn {
@@ -830,246 +637,379 @@
       justify-content: center;
       gap: 8px;
       height: 44px;
-      padding: 0 18px;
-      border: 0;
+      padding: 0 22px;
       border-radius: 999px;
-      font-size: 0.9375rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition:
-        transform 180ms var(--ease),
-        filter 180ms var(--ease),
-        background 180ms var(--ease),
-        color 180ms var(--ease);
+      border: 0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease);
     }
 
-    .btn-primary {
-      background: var(--accent-fill);
-      color: var(--accent-ink);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 1px 2px rgba(28, 25, 23, 0.12);
-    }
+    .btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-    .btn-fill {
-      background: var(--fill);
-      color: var(--fill-ink);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
-    }
-
-    .btn-primary:hover,
-    .btn-fill:hover { filter: brightness(1.06); }
-
-    .btn-primary:active,
-    .btn-fill:active { transform: scale(0.98); }
-
+    .btn-primary { background: var(--ink-btn); color: var(--ink-btn-text); }
+    .btn-primary:hover { background: var(--ink-body); }
+    .btn-cinnabar { background: var(--cinnabar); color: var(--on-cinnabar); }
+    .btn-cinnabar:hover { background: var(--cinnabar-deep); }
     .btn-quiet {
-      padding: 0 12px;
+      height: auto;
+      padding: 4px 0;
+      border-radius: 0;
       background: transparent;
-      color: var(--ink-soft);
-      box-shadow: none;
+      color: var(--muted);
+      border-bottom: 1px dotted var(--line-strong);
+    }
+    .btn-quiet:hover { color: var(--cinnabar); border-bottom-color: var(--cinnabar); }
+    .btn-line {
+      height: 32px;
+      padding: 0 12px;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .btn-line:hover { color: var(--ink); background: var(--sheet); }
+    .btn-danger:hover { color: var(--cinnabar); }
+
+    .shortcut {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--muted);
     }
 
-    .btn-quiet:hover {
-      color: var(--ink);
-      background: var(--hover);
+    .actions-main { display: flex; align-items: center; gap: 12px; }
+
+    .score-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
     }
 
-    .btn-danger:hover {
-      color: var(--bad);
-      background: var(--bad-soft);
+    .score-badge-value { font-weight: 600; color: var(--ink); }
+    .score-badge.is-ok .score-badge-value { color: var(--ok-ink); }
+    .score-badge.is-mid .score-badge-value { color: var(--cinnabar-deep); }
+    .score-badge-meta { color: var(--muted); }
+
+    .analise-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line-strong);
     }
 
-    .btn:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px var(--accent-soft);
-    }
+    .analise-head h2 { margin: 2px 0 6px; font-size: 32px; }
+    .analise-head p { margin: 0; max-width: 52ch; color: var(--muted); }
 
-    .btn-icon {
-      width: 16px;
-      height: 16px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
     }
 
     .stat {
-      padding: 16px 18px 14px;
-      border-radius: var(--radius-card);
-      background: var(--surface-solid);
-      box-shadow: 0 0 0 1px var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 148px;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+    }
+
+    .stat-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
     }
 
     .stat-value {
-      font-size: 1.75rem;
-      font-weight: 700;
+      margin: 8px 0;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 36px;
+      font-weight: 500;
       letter-spacing: -0.03em;
       line-height: 1.1;
-      font-variant-numeric: tabular-nums lining-nums;
     }
 
-    .stat-value.is-accent { color: var(--accent); }
+    .stat-value span { font-size: 22px; font-weight: 400; color: var(--muted); }
+    .stat-value.is-accent { color: var(--cinnabar); }
+    .stat-foot { margin: 0; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; color: var(--muted); }
 
-    .stat-label {
-      margin-top: 6px;
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
+    .track { display: flex; align-items: center; gap: 8px; }
+    .track-bar { flex: 1; height: 6px; border-radius: 999px; background: var(--segment); overflow: hidden; }
+    .track-bar i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--ink); }
+
+    .flag {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--ok-line);
+      background: var(--ok-bg);
+      color: var(--ok-ink);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px;
+      font-weight: 600;
     }
 
-    .sheet-head {
+    .flag.is-wait { border-color: var(--line-strong); background: var(--sheet); color: var(--muted); }
+    .flag.is-alert { border-color: var(--bad-line); background: var(--bad-bg); color: var(--bad-ink); }
+
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .sheet {
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+    }
+
+    .sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+    .sheet-title { margin: 0; font-family: Newsreader, Georgia, serif; font-size: 24px; font-weight: 500; }
+    .sheet-sub { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+    .chart-frame { position: relative; height: 240px; margin-top: 16px; }
+    .sheet-foot {
       display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .sheet-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .sheet-sub {
-      margin-top: 2px;
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
-    }
-
-    .chart-frame { height: 16rem; }
-    @media (min-width: 640px) {
-      .chart-frame { height: 18rem; }
-    }
-
-    .table-scroll { overflow-x: auto; margin: 4px -20px -20px; }
-
-    .history-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9375rem;
-    }
-
-    .history-table th {
-      padding: 12px 16px;
-      background: color-mix(in srgb, var(--ink) 3%, var(--surface-solid));
-      color: var(--ink-soft);
-      font-size: 0.8125rem;
-      font-weight: 400;
-      text-align: left;
-    }
-
-    .history-table td {
-      padding: 14px 16px;
+      margin-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid var(--line);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .diagnosis {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+    }
+
+    .diagnosis p { margin: 0; display: flex; gap: 10px; align-items: flex-start; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; color: var(--ink); }
+    .diagnosis p i { width: 8px; height: 8px; margin-top: 4px; border-radius: 50%; background: var(--cinnabar); flex: none; }
+
+    .table-scroll { overflow-x: auto; }
+    .history-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .history-table th {
+      padding: 12px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .history-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--line);
       vertical-align: middle;
     }
+    .history-table tbody tr:hover { background: var(--sheet); }
+    .col-day { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; color: var(--muted); width: 56px; }
+    .col-name { font-weight: 600; }
+    .col-mid, .col-end { text-align: right; }
+    .col-time { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; text-align: right; color: var(--muted); }
+    .col-time.is-fast { color: var(--ok-ink); font-weight: 600; }
+    .col-time.is-slow { color: var(--cinnabar-deep); font-weight: 600; }
+    .is-next { background: var(--sheet); }
+    .is-next .col-day { color: var(--cinnabar-deep); font-weight: 700; }
+    .badge-next {
+      margin-left: 8px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--cinnabar-soft);
+      color: var(--cinnabar-deep);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+    .score-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .score-chip.is-perfect {
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--ok-line);
+      background: var(--ok-bg);
+      color: var(--ok-ink);
+    }
+    .score-chip.is-low { color: var(--cinnabar-deep); }
 
-    .history-table tbody tr { transition: background 180ms var(--ease); }
-    .history-table tbody tr:hover { background: var(--hover); }
-
-    .col-strong { font-weight: 700; }
-    .col-soft { color: var(--ink-soft); font-size: 0.875rem; }
-    .col-muted { color: var(--ink-faint); }
-    .col-mid { text-align: center; }
-    .col-end { text-align: right; }
-    .col-num {
-      text-align: center;
-      font-weight: 700;
-      white-space: nowrap;
-      font-variant-numeric: tabular-nums lining-nums;
+    .site-footer {
+      border-top: 1px solid var(--line-strong);
+      background: var(--paper);
+      padding: 24px 0;
+      margin-top: 24px;
     }
 
-    .sheet-title-pad {
-      padding: 0 0 14px;
-      box-shadow: inset 0 -1px 0 var(--line);
-      margin: -4px 0 0;
+    .site-footer .inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--muted);
     }
+
+    .about {
+      width: min(720px, calc(100vw - 32px));
+      max-height: min(84vh, 860px);
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: var(--card);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .about::backdrop { background: rgba(26, 25, 24, 0.46); }
+    .about-head, .about-foot {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+    .about-head { border-bottom: 1px solid var(--line); }
+    .about-foot { border-top: 1px solid var(--line); justify-content: flex-end; }
+    .about-kicker { margin: 0 0 4px; }
+    .about-title { margin: 0; font-size: 28px; }
+    .about-close {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      border-bottom: 1px dotted var(--line-strong);
+      padding: 2px 0;
+    }
+    .about-close:hover { color: var(--cinnabar); }
+    .about-body {
+      padding: 8px 24px 24px;
+      overflow: auto;
+      max-height: calc(84vh - 160px);
+      user-select: text;
+      color: var(--ink-body);
+    }
+    .about-body h3 {
+      font-family: Newsreader, Georgia, serif;
+      font-size: 22px;
+      font-weight: 500;
+      margin: 22px 0 8px;
+      color: var(--ink);
+    }
+    .about-body p, .about-body li { font-size: 15px; line-height: 1.6; }
+    .about-body a { color: var(--cinnabar-deep); }
+    .about-formula {
+      margin: 12px 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--sheet);
+      color: var(--ink);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .about-table-wrap { overflow-x: auto; }
+    .about-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .about-table th, .about-table td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .about-table th {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .print-only { display: none; }
+
+    .exercicios-col { width: min(760px, 100%); margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .stack { display: flex; flex-direction: column; gap: 20px; }
 
     @keyframes rise {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: none; }
     }
 
-    @keyframes draw { to { stroke-dashoffset: 0; } }
-
-    .is-entering { animation: rise var(--dur-slow) var(--ease); }
+    @media (max-width: 900px) {
+      .bar-inner { grid-template-columns: 1fr auto; }
+      .segmented { grid-column: 1 / -1; justify-self: stretch; }
+      .segment { flex: 1; }
+      .stats, .charts { grid-template-columns: 1fr 1fr; }
+      .technique h2, .analise-head h2 { font-size: 26px; }
+      .brand { font-size: 18px; }
+      .hist-label { display: none; }
+    }
 
     @media (max-width: 640px) {
-      .q-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .well { width: 100%; }
-
-      .score-badge { align-items: flex-start; }
+      .stats, .charts { grid-template-columns: 1fr; }
+      .brand-sub { display: none; }
+      .stat-value { font-size: 28px; }
+      .q-eq, .well-input { font-size: 20px; }
+      .actions { align-items: stretch; flex-direction: column-reverse; }
+      .actions-main { justify-content: space-between; }
+      .diagnosis { flex-direction: column; align-items: stretch; }
+      .site-footer .inner { flex-direction: column; align-items: center; text-align: center; }
+      .shortcut { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .q-card,
-      .is-entering,
-      .draw path {
-        animation: none;
-      }
-
+      .q-card, .metronome.is-live .metro-dot, .draw path { animation: none; }
       .draw path { stroke-dashoffset: 0; }
-      .cut i { width: 5px; transition: none; }
-
-      .segment-thumb,
-      .well,
-      .well-line,
-      .q-feedback,
-      .q-card,
-      .btn,
-      .theme-toggle,
-      .cap-toggle,
-      .about-close,
-      .about[open],
-      .history-table tbody tr {
-        transition: none;
-      }
+      .btn, .segment, .q-card, .icon-btn, .text-btn { transition: none; }
     }
+
+    @media print {
+      .bar, .site-footer, .actions, .no-print, .about { display: none !important; }
+      body { background: #fff; }
+      .print-only { display: block; font-family: Newsreader, Georgia, serif; font-size: 22px; margin: 0 0 12px; }
+      .sheet, .stat, .diagnosis, .technique { break-inside: avoid; }
+    }
+
   </style>
 </head>
 <body>
 
   <header class="bar">
-    <div class="max-w-5xl mx-auto px-4 bar-inner flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3 min-w-0">
-        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
-          <circle cx="9.5" cy="8.5" r="3"></circle>
-          <circle cx="22.5" cy="23.5" r="3"></circle>
-          <path d="M24 6.5 L8 25.5"></path>
-        </svg>
-        <div class="min-w-0">
-          <h1 class="display brand">Mestre da Porcentagem</h1>
-          <p class="brand-sub">Método de corte de zeros e vírgula</p>
-        </div>
-      </div>
+    <div class="max-w-5xl mx-auto px-4 bar-inner">
+      <a class="brand-lockup" href="#exercicios" onclick="switchTab('exercicios'); return false;">
+        <span class="logo-mark" aria-hidden="true"><span>%</span><i class="logo-cut"></i></span>
+        <span class="min-w-0">
+          <span class="display brand">Mestre da Porcentagem</span>
+          <span class="brand-sub">Método de corte de zeros e vírgula</span>
+        </span>
+      </a>
 
-      <div class="bar-tools">
-        <button type="button" class="cap-toggle" id="about-open" onclick="openAbout()" aria-haspopup="dialog" aria-controls="about-dialog" aria-label="Sobre o método e a sua história">
-          <svg class="cap-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M12 3.1 22.2 8.5 12 13.9 1.8 8.5 12 3.1Z"></path>
-            <path fill="none" stroke="currentColor" stroke-width="1.6" d="M6.6 11.1v3.7c0 1.8 2.4 3.3 5.4 3.3s5.4-1.5 5.4-3.3v-3.7"></path>
-            <path fill="none" stroke="currentColor" stroke-width="1.6" d="M19.6 9.5v5"></path>
-            <circle cx="19.6" cy="16.1" r="1.15" fill="currentColor"></circle>
-          </svg>
-        </button>
-        <button type="button" class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-pressed="false" aria-label="Ativar modo claro">
-          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
-          </svg>
-          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"></path>
-          </svg>
-          <span class="theme-label theme-label-claro">Claro</span>
-          <span class="theme-label theme-label-escuro">Escuro</span>
-        </button>
       <nav class="segmented" id="segmented" role="tablist" aria-label="Seções">
-        <span class="segment-thumb" aria-hidden="true"></span>
         <button type="button" id="tab-exercicios-btn" class="segment is-on" role="tab" aria-selected="true" aria-controls="tab-exercicios" onclick="switchTab('exercicios')">
           Exercícios
         </button>
@@ -1077,114 +1017,201 @@
           Análise
         </button>
       </nav>
+
+      <div class="bar-tools">
+        <button type="button" class="text-btn" id="about-open" onclick="openAbout()" aria-haspopup="dialog" aria-controls="about-dialog" aria-label="História do método">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M12 3.1 22.2 8.5 12 13.9 1.8 8.5 12 3.1Z"></path>
+            <path fill="none" stroke="currentColor" stroke-width="1.6" d="M6.6 11.1v3.7c0 1.8 2.4 3.3 5.4 3.3s5.4-1.5 5.4-3.3v-3.7"></path>
+            <path fill="none" stroke="currentColor" stroke-width="1.6" d="M19.6 9.5v5"></path>
+            <circle cx="19.6" cy="16.1" r="1.15" fill="currentColor"></circle>
+          </svg>
+          <span class="hist-label">História do método</span>
+        </button>
+        <button type="button" class="icon-btn" id="theme-toggle" onclick="toggleTheme()" aria-pressed="false" aria-label="Ativar modo claro">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"></path>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
 
   <main class="page max-w-5xl mx-auto px-4">
 
-    <section id="tab-exercicios" class="stack" role="tabpanel" aria-labelledby="tab-exercicios-btn">
-
-      <div class="sheet">
-        <div class="lesson-head">
-          <div class="select-wrap">
-            <label class="field-label" for="lesson-select">Aula</label>
+    <section id="tab-exercicios" role="tabpanel" aria-labelledby="tab-exercicios-btn">
+      <div class="exercicios-col">
+        <div class="lesson-bar">
+          <div class="lesson-pill">
+            <span class="lesson-kicker">Aula</span>
+            <span class="dot" aria-hidden="true"></span>
+            <label class="sr-only" for="lesson-select">Aula</label>
             <select id="lesson-select" class="select" onchange="loadLesson(this.value)"></select>
             <svg class="chevron" viewBox="0 0 12 12" aria-hidden="true">
               <path d="M2.1 4.2a.75.75 0 0 1 1.06 0L6 6.99l2.84-2.8a.75.75 0 1 1 1.05 1.07L6.53 8.6a.75.75 0 0 1-1.06 0L2.1 5.27a.75.75 0 0 1 0-1.06z"></path>
             </svg>
           </div>
+          <div class="lesson-count" id="lesson-count">1 de 10 aulas</div>
           <div id="lesson-badge" aria-live="polite"></div>
         </div>
 
-        <div class="tip" id="tip">
-          <span class="cut" aria-hidden="true"><i></i></span>
-          <div>
-            <p class="tip-kicker">Técnica da aula</p>
-            <h2 class="display tip-title" id="tip-title"></h2>
-            <p class="tip-text" id="tip-text"></p>
+        <div class="rule" aria-hidden="true"><span></span><i></i><span></span></div>
+
+        <section class="technique" id="tip">
+          <p class="kicker">Técnica operacional</p>
+          <h2 class="display" id="tip-title"></h2>
+          <p class="tip-text" id="tip-text"></p>
+          <div class="demo">
+            <p class="demo-eq" id="demo-eq"></p>
+            <p class="demo-note"><i aria-hidden="true"></i><span id="demo-note"></span></p>
           </div>
-        </div>
+        </section>
+
+        <form id="quiz-form" autocomplete="off" onsubmit="event.preventDefault(); submitLesson();" class="stack">
+          <div class="practice-head">
+            <h2>Prática do dia · 10 questões</h2>
+            <p class="metronome" id="metronome">
+              <span class="metro-dot" aria-hidden="true"></span>
+              <span id="metronome-label">Metrônomo mental livre</span>
+              <span id="metronome-time">0:00</span>
+            </p>
+          </div>
+          <div id="questions-container" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+
+          <div class="actions">
+            <button type="button" class="btn btn-quiet" onclick="clearCurrentLesson()">Limpar respostas</button>
+            <div class="actions-main">
+              <span class="shortcut" id="submit-shortcut">Enter</span>
+              <button type="submit" class="btn btn-primary" id="btn-submit">
+                <span>Corrigir aula</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </button>
+              <button type="button" class="btn btn-cinnabar hidden" id="btn-next" onclick="nextLesson()">
+                <span id="btn-next-label">Próxima aula</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-
-      <form id="quiz-form" autocomplete="off" onsubmit="event.preventDefault(); submitLesson();" class="stack">
-        <div id="questions-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-
-        <div class="actions">
-          <button type="button" class="btn btn-quiet" onclick="clearCurrentLesson()">Limpar respostas</button>
-          <div class="actions-main">
-            <button type="submit" class="btn btn-primary" id="btn-submit">
-              <span>Corrigir aula</span>
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7.5"></path></svg>
-            </button>
-            <button type="button" class="btn btn-fill hidden" id="btn-next" onclick="nextLesson()">
-              <span id="btn-next-label">Próxima aula</span>
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
-            </button>
-          </div>
-        </div>
-      </form>
     </section>
 
     <section id="tab-analise" class="stack hidden" role="tabpanel" aria-labelledby="tab-analise-btn">
+      <p class="print-only">Mestre da Porcentagem · relatório de desempenho</p>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="stat">
-          <p class="stat-value" id="stat-completed">0 / 10</p>
+      <header class="analise-head">
+        <div>
+          <p class="kicker">Desempenho e progressão</p>
+          <h2 class="display">Análise de desempenho</h2>
+          <p>Acompanhamento da precisão e do tempo por item ao longo dos 10 dias de prática.</p>
+        </div>
+        <button type="button" class="text-btn no-print" onclick="window.print()">Exportar relatório</button>
+      </header>
+
+      <div class="stats">
+        <article class="stat">
           <p class="stat-label">Aulas concluídas</p>
-        </div>
-        <div class="stat">
+          <p class="stat-value" id="stat-completed">0 <span>/ 10</span></p>
+          <div class="track">
+            <div class="track-bar" aria-hidden="true"><i id="stat-journey-bar"></i></div>
+            <span class="stat-foot" id="stat-journey">0% da jornada</span>
+          </div>
+        </article>
+        <article class="stat">
+          <p class="stat-label">Precisão geral</p>
           <p class="stat-value is-accent" id="stat-accuracy">0%</p>
-          <p class="stat-label">Taxa de acerto</p>
-        </div>
-        <div class="stat">
-          <p class="stat-value" id="stat-total-correct">0 / 100</p>
+          <div class="track">
+            <p class="stat-foot" id="stat-accuracy-detail">0 de 0 questões</p>
+            <span class="flag is-wait" id="stat-accuracy-flag">Sem meta</span>
+          </div>
+        </article>
+        <article class="stat">
           <p class="stat-label">Total de acertos</p>
-        </div>
-        <div class="stat">
-          <p class="stat-value" id="stat-avg">0,0</p>
-          <p class="stat-label">Média por aula</p>
-        </div>
+          <p class="stat-value" id="stat-total-correct">0 <span>/ 100</span></p>
+          <p class="stat-foot">Meta global: ≥ 80 acertos</p>
+        </article>
+        <article class="stat">
+          <p class="stat-label">Tempo médio global</p>
+          <p class="stat-value" id="stat-time">—</p>
+          <div class="track">
+            <p class="stat-foot">Agilidade mental</p>
+            <span class="flag is-wait" id="stat-time-flag">Sem tempo</span>
+          </div>
+        </article>
       </div>
 
-      <div class="sheet">
+      <div class="charts">
+        <article class="sheet">
+          <div class="sheet-head">
+            <div>
+              <h3 class="sheet-title">Precisão por aula</h3>
+              <p class="sheet-sub">Taxa de acertos do dia. Meta ≥ 80%.</p>
+            </div>
+          </div>
+          <div class="chart-frame"><canvas id="progressChart"></canvas></div>
+        </article>
+        <article class="sheet">
+          <div class="sheet-head">
+            <div>
+              <h3 class="sheet-title">Agilidade mental</h3>
+              <p class="sheet-sub">Segundos por questão. Zona ideal &lt; 5,0 s.</p>
+            </div>
+          </div>
+          <div class="chart-frame"><canvas id="agilityChart"></canvas></div>
+          <div class="sheet-foot">
+            <span id="agility-rhythm">Ritmo: ainda sem medida</span>
+            <span id="agility-adjust">Ajuste: —</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="diagnosis">
+        <p><i aria-hidden="true"></i><span id="diagnosis-text">Ainda não há aulas corrigidas.</span></p>
+        <button type="button" class="btn btn-line btn-danger no-print" onclick="resetAllProgress()">Reiniciar progresso</button>
+      </div>
+
+      <article class="sheet">
         <div class="sheet-head">
           <div>
-            <h3 class="sheet-title">Curva de progressão</h3>
-            <p class="sheet-sub">Acertos de cada dia, no máximo 10.</p>
+            <h3 class="sheet-title">Histórico por aula</h3>
+            <p class="sheet-sub">Registro diário de fixação operacional.</p>
           </div>
-          <button type="button" class="btn btn-quiet btn-danger" onclick="resetAllProgress()">Reiniciar progresso</button>
         </div>
-        <div class="chart-frame">
-          <canvas id="progressChart"></canvas>
-        </div>
-      </div>
-
-      <div class="sheet">
-        <h3 class="sheet-title sheet-title-pad">Histórico por aula</h3>
         <div class="table-scroll">
           <table class="history-table">
             <thead>
               <tr>
-                <th>Aula</th>
-                <th>Foco da técnica</th>
+                <th>Dia</th>
+                <th>Nome da aula</th>
+                <th class="col-mid">Tempo méd.</th>
                 <th class="col-mid">Acertos</th>
-                <th class="col-mid">Aproveitamento</th>
                 <th class="col-end">Ação</th>
               </tr>
             </thead>
             <tbody id="history-table-body"></tbody>
           </table>
         </div>
-      </div>
+      </article>
     </section>
 
   </main>
 
+  <footer class="site-footer">
+    <div class="max-w-5xl mx-auto px-4 inner">
+      <span>Caderno de Métodos Mentais • Vol. I</span>
+      <span>Precisão intelectual sem calculadora</span>
+    </div>
+  </footer>
+
+
   <dialog id="about-dialog" class="about" aria-labelledby="about-title">
     <div class="about-head">
       <div>
-        <p class="about-kicker">Caderno de estudo</p>
+        <p class="kicker about-kicker">Caderno de estudo</p>
         <h2 id="about-title" class="display about-title">O método e a sua história</h2>
       </div>
       <button type="button" class="about-close" onclick="closeAbout()">Fechar</button>
@@ -1325,6 +1352,9 @@ x  =  (p × N) / 100</pre>
 
       <h3>Créditos</h3>
       <p>App de estudo desenvolvido por Diego Duenhas, <a href="https://diegoduenhas.com.br">diegoduenhas.com.br</a>. A aritmética é de domínio comum. O desenho das aulas, a interface e este texto de estudo são do app.</p>
+    </div>
+    <div class="about-foot">
+      <button type="button" class="btn btn-primary" onclick="closeAbout()">Continuar exercícios</button>
     </div>
   </dialog>
 
@@ -1504,7 +1534,22 @@ x  =  (p × N) / 100</pre>
 
     let currentLessonId = 1;
     let userProgress = JSON.parse(localStorage.getItem('porcentagem_progress')) || {};
-    let chartInstance = null;
+    let chartInstances = [];
+    let metronome = { lessonId: null, startedAt: 0, accumulated: 0, running: false };
+    let metronomeTimer = null;
+
+    const lessonDemos = {
+      1: { note: "Dois zeros suprimidos", pieces: [["3% de 2"], ["00", "cut"], [" = ", "mute"], ["3 × 2", "accent"], [" = ", "mute"], ["6", "strong"]] },
+      2: { note: "Um zero em cada número", pieces: [["3"], ["0", "cut"], ["% de 4"], ["0", "cut"], [" = ", "mute"], ["3 × 4", "accent"], [" = ", "mute"], ["12", "strong"]] },
+      3: { note: "Dois zeros, onde estiverem", pieces: [["4% de 9"], ["00", "cut"], [" = ", "mute"], ["4 × 9", "accent"], [" = ", "mute"], ["36", "strong"]] },
+      4: { note: "O zero que surge no produto", pieces: [["6% de 5"], ["0", "cut"], [" = 6 × 5 = 3", "mute"], ["0", "cut"], [" → ", "mute"], ["3", "strong"]] },
+      5: { note: "Um zero cortado, uma casa da vírgula", pieces: [["2"], ["0", "cut"], ["% de 13 = 26 → ", "mute"], ["2,6", "accent"]] },
+      6: { note: "O zero pode estar na base", pieces: [["4% de 3"], ["0", "cut"], [" = 12 → ", "mute"], ["1,2", "accent"]] },
+      7: { note: "Sem zeros: a vírgula anda duas casas", pieces: [["2% de 142 = 284 → ", "mute"], ["2,84", "accent"]] },
+      8: { note: "Produto curto vira decimal", pieces: [["3% de 24 = 72 → ", "mute"], ["0,72", "accent"]] },
+      9: { note: "Primeiro conte os zeros", pieces: [["4% de 3"], ["00", "cut"], [" = ", "mute"], ["4 × 3", "accent"], [" = ", "mute"], ["12", "strong"]] },
+      10: { note: "O gesto, no tempo da prova", pieces: [["8% de 4"], ["00", "cut"], [" = ", "mute"], ["8 × 4", "accent"], [" = ", "mute"], ["32", "strong"]] }
+    };
 
     let audioCtx = null;
     function playTone(freq, duration, type = "sine") {
@@ -1554,10 +1599,15 @@ x  =  (p × N) / 100</pre>
       btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
       btn.setAttribute("aria-label", toLight ? "Ativar modo claro" : "Ativar modo escuro");
       const meta = document.getElementById("theme-color");
-      if (meta) meta.setAttribute("content", theme === "dark" ? "#12110f" : "#f4f1ea");
+      if (meta) meta.setAttribute("content", theme === "dark" ? "#141311" : "#faf9f7");
     }
 
     function openAbout() {
+      if (metronome.running) {
+        metronome.accumulated += performance.now() - metronome.startedAt;
+        metronome.running = false;
+        document.getElementById("metronome").classList.remove("is-live");
+      }
       const dialog = document.getElementById("about-dialog");
       if (!dialog.open) dialog.showModal();
     }
@@ -1565,6 +1615,11 @@ x  =  (p × N) / 100</pre>
     function closeAbout() {
       const dialog = document.getElementById("about-dialog");
       if (dialog.open) dialog.close();
+      if (metronome.lessonId && !userProgress[metronome.lessonId] && !document.getElementById("tab-exercicios").classList.contains("hidden")) {
+        metronome.startedAt = performance.now();
+        metronome.running = true;
+        document.getElementById("metronome").classList.add("is-live");
+      }
     }
 
     function toggleTheme() {
@@ -1581,6 +1636,28 @@ x  =  (p × N) / 100</pre>
         if (event.target === about) about.close();
       });
       syncThemeControl();
+      const shortcut = document.getElementById("submit-shortcut");
+      const mac = /Mac|iPhone|iPad/.test(navigator.platform || "");
+      if (shortcut) shortcut.textContent = mac ? "⌘ Enter" : "Ctrl Enter";
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" || !(event.metaKey || event.ctrlKey)) return;
+        if (about.open) return;
+        if (document.getElementById("tab-exercicios").classList.contains("hidden")) return;
+        event.preventDefault();
+        submitLesson();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (!metronome.lessonId) return;
+        if (document.hidden && metronome.running) {
+          metronome.accumulated += performance.now() - metronome.startedAt;
+          metronome.running = false;
+          document.getElementById("metronome").classList.remove("is-live");
+        } else if (!document.hidden && !userProgress[metronome.lessonId]) {
+          metronome.startedAt = performance.now();
+          metronome.running = true;
+          document.getElementById("metronome").classList.add("is-live");
+        }
+      });
       populateLessonSelect();
       loadLesson(1);
       renderAnalytics();
@@ -1617,7 +1694,82 @@ x  =  (p × N) / 100</pre>
       void panel.offsetWidth;
       panel.classList.add("is-entering");
 
-      if (!showEx) renderAnalytics();
+      if (!showEx) {
+        if (metronome.running) {
+          metronome.accumulated += performance.now() - metronome.startedAt;
+          metronome.running = false;
+          document.getElementById("metronome").classList.remove("is-live");
+        }
+        renderAnalytics();
+      } else if (metronome.lessonId && !userProgress[metronome.lessonId]) {
+        metronome.startedAt = performance.now();
+        metronome.running = true;
+        document.getElementById("metronome").classList.add("is-live");
+      }
+    }
+
+    function renderDemo(id) {
+      const demo = lessonDemos[id];
+      const eq = document.getElementById("demo-eq");
+      eq.replaceChildren();
+      demo.pieces.forEach((piece) => {
+        const span = document.createElement("span");
+        span.textContent = piece[0];
+        if (piece[1] === "cut") span.className = "cut-digit";
+        else if (piece[1] === "accent") span.className = "demo-accent";
+        else if (piece[1] === "strong") span.className = "demo-strong";
+        else if (piece[1] === "mute") span.className = "demo-muted";
+        eq.appendChild(span);
+      });
+      document.getElementById("demo-note").textContent = demo.note;
+    }
+
+    function metronomeMs() {
+      if (!metronome.lessonId) return 0;
+      const live = metronome.running ? performance.now() - metronome.startedAt : 0;
+      return metronome.accumulated + live;
+    }
+
+    function formatClock(ms) {
+      const total = Math.max(0, Math.floor(ms / 1000));
+      return Math.floor(total / 60) + ":" + String(total % 60).padStart(2, "0");
+    }
+
+    function formatPace(seconds) {
+      return seconds.toFixed(1).replace(".", ",") + " s";
+    }
+
+    function paintMetronome() {
+      if (!metronome.running) return;
+      const time = document.getElementById("metronome-time");
+      if (time) time.textContent = formatClock(metronomeMs());
+    }
+
+    function startMetronome(id) {
+      metronome = { lessonId: id, startedAt: performance.now(), accumulated: 0, running: true };
+      document.getElementById("metronome-label").textContent = "Metrônomo mental livre";
+      document.getElementById("metronome-time").textContent = "0:00";
+      document.getElementById("metronome").classList.add("is-live");
+      if (!metronomeTimer) metronomeTimer = setInterval(paintMetronome, 200);
+    }
+
+    function showStoredPace(saved) {
+      metronome = { lessonId: null, startedAt: 0, accumulated: 0, running: false };
+      document.getElementById("metronome").classList.remove("is-live");
+      if (saved && saved.elapsedMs) {
+        document.getElementById("metronome-label").textContent = "Ritmo desta aula";
+        document.getElementById("metronome-time").textContent = formatPace(saved.elapsedMs / 1000 / (saved.total || 10));
+      } else {
+        document.getElementById("metronome-label").textContent = "Metrônomo mental livre";
+        document.getElementById("metronome-time").textContent = "sem tempo";
+      }
+    }
+
+    function pad2(n) { return String(n).padStart(2, "0"); }
+
+    function perItemSeconds(progress) {
+      if (!progress || !progress.elapsedMs) return null;
+      return progress.elapsedMs / 1000 / (progress.total || 10);
     }
 
     function populateLessonSelect() {
@@ -1637,7 +1789,9 @@ x  =  (p × N) / 100</pre>
       document.getElementById("lesson-select").value = currentLessonId;
       document.getElementById("tip-title").textContent = lesson.title;
       document.getElementById("tip-text").textContent = lesson.tip;
+      document.getElementById("lesson-count").textContent = currentLessonId + " de 10 aulas";
       document.getElementById("btn-next-label").textContent = currentLessonId < 10 ? "Próxima aula" : "Ver progresso";
+      renderDemo(currentLessonId);
       replayCut();
 
       const container = document.getElementById("questions-container");
@@ -1654,36 +1808,35 @@ x  =  (p × N) / 100</pre>
         card.style.animationDelay = `${idx * 35}ms`;
         card.innerHTML = `
           <div class="q-card-top">
-            <span class="q-index">Questão ${idx + 1} de 10</span>
+            <span class="q-index">${pad2(idx + 1)}</span>
             <span id="badge-${idx}" class="pill is-quiet" hidden></span>
           </div>
-          <div class="q-row">
-            <p class="q-eq">${formatQuestion(q.q)}</p>
-            <label class="well">
-              <span class="well-prefix" aria-hidden="true">=</span>
-              <input
-                type="text"
-                inputmode="decimal"
-                placeholder="0,00"
-                id="input-${idx}"
-                value="${esc(userAns)}"
-                class="well-input"
-                aria-label="Resposta para ${esc(q.q)}"
-                autocomplete="off"
-                spellcheck="false"
-              />
-              <span class="well-line" aria-hidden="true"></span>
-            </label>
-          </div>
-          <div id="feedback-${idx}" class="q-feedback"></div>
+          <p class="q-eq">${formatQuestion(q.q)}</p>
+          <label class="well">
+            <span class="well-prefix" aria-hidden="true">=</span>
+            <input
+              type="text"
+              inputmode="decimal"
+              placeholder="0,00"
+              id="input-${idx}"
+              value="${esc(userAns)}"
+              class="well-input"
+              aria-label="Resposta para ${esc(q.q)}"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </label>
+          <div id="feedback-${idx}" class="q-feedback" hidden></div>
         `;
         container.appendChild(card);
       });
 
       if (saved) {
         showResults(saved);
+        showStoredPace(saved);
         document.getElementById("btn-next").classList.remove("hidden");
       } else {
+        startMetronome(currentLessonId);
         document.getElementById("btn-next").classList.add("hidden");
       }
     }
@@ -1707,11 +1860,21 @@ x  =  (p × N) / 100</pre>
         if (userValue === normalizeInput(q.a)) correctCount++;
       });
 
+      let elapsedMs = userProgress[currentLessonId] && userProgress[currentLessonId].elapsedMs;
+      if (metronome.lessonId === currentLessonId) {
+        if (metronome.running) metronome.accumulated += performance.now() - metronome.startedAt;
+        metronome.running = false;
+        elapsedMs = Math.round(metronomeMs());
+        metronome.lessonId = null;
+        document.getElementById("metronome").classList.remove("is-live");
+      }
+
       userProgress[currentLessonId] = {
         answers: answers,
         score: correctCount,
         total: 10,
-        date: new Date().toLocaleDateString("pt-BR")
+        date: new Date().toLocaleDateString("pt-BR"),
+        elapsedMs: elapsedMs || 0
       };
       localStorage.setItem("porcentagem_progress", JSON.stringify(userProgress));
 
@@ -1723,6 +1886,7 @@ x  =  (p × N) / 100</pre>
       }
 
       showResults(userProgress[currentLessonId]);
+      showStoredPace(userProgress[currentLessonId]);
       updateLessonBadge(userProgress[currentLessonId]);
       document.getElementById("btn-next").classList.remove("hidden");
     }
@@ -1741,6 +1905,7 @@ x  =  (p × N) / 100</pre>
         card.classList.toggle("is-correct", ok);
         card.classList.toggle("is-wrong", !ok);
         badge.hidden = false;
+        fb.hidden = false;
 
         if (ok) {
           badge.className = "pill is-ok";
@@ -1748,8 +1913,8 @@ x  =  (p × N) / 100</pre>
           fb.innerHTML = `<span class="fb-label">Técnica.</span> ${esc(q.exp)}`;
         } else {
           badge.className = "pill is-bad";
-          badge.textContent = `Resposta: ${q.a}`;
-          fb.innerHTML = `<span class="fb-label">Passo a passo.</span> ${esc(q.exp)}`;
+          badge.textContent = "Inconsistência";
+          fb.innerHTML = `<span class="fb-label">Correção.</span> ${esc(q.exp)}`;
         }
       });
     }
@@ -1790,125 +1955,292 @@ x  =  (p × N) / 100</pre>
     function renderAnalytics() {
       let completed = 0;
       let totalCorrect = 0;
-      const scores = [];
+      let timedMs = 0;
+      let timedQuestions = 0;
+      const precision = [];
+      const agility = [];
       const labels = [];
+      const rows = [];
 
       for (let i = 1; i <= 10; i++) {
-        labels.push(`Dia ${i}`);
-        const p = userProgress[i];
-        if (p) {
+        labels.push("Dia " + i);
+        const progress = userProgress[i];
+        const lesson = lessonsData[i - 1];
+        if (progress) {
           completed++;
-          totalCorrect += p.score;
-          scores.push(p.score);
+          totalCorrect += progress.score;
+          precision.push(progress.score * 10);
+          const pace = perItemSeconds(progress);
+          agility.push(pace);
+          if (pace != null) {
+            timedMs += progress.elapsedMs;
+            timedQuestions += progress.total || 10;
+          }
+          rows.push({ id: i, title: lesson.title, score: progress.score, pace: pace });
         } else {
-          scores.push(null);
+          precision.push(null);
+          agility.push(null);
+          rows.push({ id: i, title: lesson.title, score: null, pace: null });
         }
       }
 
-      const totalAttempted = completed * 10;
-      const acc = totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
-      const avg = completed > 0 ? (totalCorrect / completed).toFixed(1).replace(".", ",") : "0,0";
+      const attempted = completed * 10;
+      const acc = attempted ? Math.round((totalCorrect / attempted) * 100) : 0;
+      const globalPace = timedQuestions ? timedMs / 1000 / timedQuestions : null;
 
-      document.getElementById("stat-completed").textContent = `${completed} / 10`;
-      document.getElementById("stat-accuracy").textContent = `${acc}%`;
-      document.getElementById("stat-total-correct").textContent = `${totalCorrect} / 100`;
-      document.getElementById("stat-avg").textContent = avg;
+      document.getElementById("stat-completed").innerHTML = completed + " <span>/ 10</span>";
+      document.getElementById("stat-journey").textContent = (completed * 10) + "% da jornada";
+      document.getElementById("stat-journey-bar").style.width = (completed * 10) + "%";
+      document.getElementById("stat-accuracy").textContent = acc + "%";
+      document.getElementById("stat-accuracy-detail").textContent = totalCorrect + " de " + attempted + " questões";
 
-      const ctx = document.getElementById("progressChart").getContext("2d");
-      if (chartInstance) chartInstance.destroy();
+      const accFlag = document.getElementById("stat-accuracy-flag");
+      if (!completed) {
+        accFlag.textContent = "Sem meta";
+        accFlag.className = "flag is-wait";
+      } else if (acc >= 80) {
+        accFlag.textContent = "Meta atingida";
+        accFlag.className = "flag";
+      } else {
+        accFlag.textContent = "Abaixo da meta";
+        accFlag.className = "flag is-alert";
+      }
+
+      document.getElementById("stat-total-correct").innerHTML = totalCorrect + " <span>/ 100</span>";
+      const timeFlag = document.getElementById("stat-time-flag");
+      if (globalPace == null) {
+        document.getElementById("stat-time").textContent = "—";
+        timeFlag.textContent = "Sem tempo";
+        timeFlag.className = "flag is-wait";
+      } else {
+        document.getElementById("stat-time").innerHTML = globalPace.toFixed(1).replace(".", ",") + " <span>s</span>";
+        if (globalPace < 5) {
+          timeFlag.textContent = "Dentro da meta";
+          timeFlag.className = "flag";
+        } else {
+          timeFlag.textContent = "Acima de 5 s";
+          timeFlag.className = "flag is-alert";
+        }
+      }
+
+      document.getElementById("diagnosis-text").textContent = buildDiagnosis(rows);
+      paintAgilityNotes(rows);
 
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const tickFont = { family: '"Atkinson Hyperlegible", sans-serif', size: 12 };
+      const tickFont = { family: '"JetBrains Mono", monospace', size: 11 };
+      const ink = readToken("--chart-line");
+      const alertColor = readToken("--chart-alert");
+      const ok = readToken("--chart-ok");
+      const grid = readToken("--chart-grid");
+      const tick = readToken("--chart-tick");
+      const tone = (good) => (ctx) => {
+        const value = ctx.raw;
+        if (value == null) return ink;
+        return good(value) ? ok : alertColor;
+      };
 
-      chartInstance = new Chart(ctx, {
+      chartInstances.forEach((chart) => chart.destroy());
+      chartInstances = [];
+
+      chartInstances.push(new Chart(document.getElementById("progressChart"), {
         type: "line",
         data: {
           labels: labels,
-          datasets: [{
-            label: "Acertos",
-            data: scores,
-            borderColor: readToken("--chart-line"),
-            backgroundColor: readToken("--chart-fill"),
-            borderWidth: 2.5,
-            fill: true,
-            tension: 0.35,
-            pointBackgroundColor: readToken("--chart-point"),
-            pointBorderColor: readToken("--chart-line"),
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            spanGaps: false
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          animation: reduceMotion ? false : { duration: 480, easing: "easeOutQuart" },
-          scales: {
-            y: {
-              min: 0,
-              max: 10,
-              grid: { color: readToken("--chart-grid") },
-              border: { display: false },
-              ticks: { color: readToken("--chart-tick"), stepSize: 2, font: tickFont }
+          datasets: [
+            {
+              label: "Precisão",
+              data: precision,
+              borderColor: ink,
+              backgroundColor: readToken("--chart-fill"),
+              borderWidth: 2,
+              fill: true,
+              tension: 0.3,
+              spanGaps: false,
+              pointRadius: 4,
+              pointBackgroundColor: tone((value) => value >= 80),
+              pointBorderColor: tone((value) => value >= 80)
             },
-            x: {
-              grid: { display: false },
-              border: { display: false },
-              ticks: { color: readToken("--chart-tick"), font: tickFont }
+            {
+              label: "Meta",
+              data: labels.map(() => 80),
+              borderColor: alertColor,
+              borderDash: [4, 4],
+              borderWidth: 1,
+              pointRadius: 0,
+              fill: false
             }
-          },
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: readToken("--ink"),
-              titleColor: readToken("--paper"),
-              bodyColor: readToken("--paper"),
-              padding: 10,
-              cornerRadius: 10,
-              displayColors: false,
-              callbacks: {
-                label: (item) => `Acertos: ${item.parsed.y} de 10 (${item.parsed.y * 10}%)`
-              }
+          ]
+        },
+        options: chartOptions(reduceMotion, tickFont, grid, tick, ink, 0, 100, (item) => "Precisão: " + item.parsed.y + "%")
+      }));
+
+      const measured = agility.filter((value) => value != null);
+      const paceMax = Math.max(8, ...measured.map((value) => Math.ceil(value + 1)));
+      chartInstances.push(new Chart(document.getElementById("agilityChart"), {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Tempo",
+              data: agility,
+              borderColor: ink,
+              backgroundColor: readToken("--chart-fill"),
+              borderWidth: 2,
+              fill: true,
+              tension: 0.3,
+              spanGaps: false,
+              pointRadius: 4,
+              pointBackgroundColor: tone((value) => value < 5),
+              pointBorderColor: tone((value) => value < 5)
+            },
+            {
+              label: "Zona",
+              data: labels.map(() => 5),
+              borderColor: ok,
+              borderDash: [4, 4],
+              borderWidth: 1,
+              pointRadius: 0,
+              fill: false
             }
-          }
-        }
-      });
+          ]
+        },
+        options: chartOptions(reduceMotion, tickFont, grid, tick, ink, 0, paceMax, (item) => "Tempo: " + item.parsed.y.toFixed(1).replace(".", ",") + " s")
+      }));
 
       const tbody = document.getElementById("history-table-body");
-      tbody.innerHTML = "";
+      tbody.replaceChildren();
+      const nextId = (lessonsData.find((lesson) => !userProgress[lesson.id]) || {}).id;
 
-      lessonsData.forEach(l => {
-        const p = userProgress[l.id];
+      lessonsData.forEach((lesson) => {
+        const progress = userProgress[lesson.id];
         const tr = document.createElement("tr");
-        const focus = esc((l.title.split(": ")[1] || l.title));
-
-        if (p) {
-          const pct = p.score * 10;
-          const tone = p.score >= 8 ? "is-ok" : "is-mid";
-          tr.innerHTML = `
-            <td class="col-strong">Dia ${l.id}</td>
-            <td class="col-soft">${focus}</td>
-            <td class="col-num">${p.score}&nbsp;/&nbsp;10</td>
-            <td class="col-mid"><span class="pill ${tone}">${pct}%</span></td>
-            <td class="col-end"><button type="button" class="btn btn-quiet" onclick="goToLesson(${l.id})">Refazer</button></td>
-          `;
-        } else {
-          tr.innerHTML = `
-            <td class="col-muted">Dia ${l.id}</td>
-            <td class="col-muted">${focus}</td>
-            <td class="col-mid col-muted">—</td>
-            <td class="col-mid"><span class="pill is-quiet">Não feito</span></td>
-            <td class="col-end"><button type="button" class="btn btn-quiet" onclick="goToLesson(${l.id})">Iniciar</button></td>
-          `;
+        const name = esc(lesson.title.split(": ")[1] || lesson.title);
+        const isNext = !progress && lesson.id === nextId;
+        if (isNext) tr.className = "is-next";
+        const pace = perItemSeconds(progress);
+        const time = document.createElement("td");
+        time.className = "col-time";
+        if (pace == null) time.textContent = "—";
+        else {
+          time.textContent = pace.toFixed(1).replace(".", ",") + "s";
+          time.classList.add(pace < 5 ? "is-fast" : "is-slow");
         }
+        const score = document.createElement("td");
+        score.className = "col-mid";
+        if (!progress) score.textContent = "— / 10";
+        else {
+          const chip = document.createElement("span");
+          chip.className = "score-chip" + (progress.score === 10 ? " is-perfect" : (progress.score < 8 ? " is-low" : ""));
+          chip.textContent = progress.score + " / 10 (" + (progress.score * 10) + "%)";
+          score.appendChild(chip);
+        }
+        const action = document.createElement("td");
+        action.className = "col-end";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn " + (progress ? "btn-line" : (isNext ? "btn-cinnabar" : "btn-line"));
+        button.textContent = progress ? "Refazer" : "Iniciar";
+        button.addEventListener("click", () => goToLesson(lesson.id));
+        action.appendChild(button);
+
+        const day = document.createElement("td");
+        day.className = "col-day";
+        day.textContent = pad2(lesson.id);
+        const title = document.createElement("td");
+        title.className = "col-name";
+        title.textContent = name;
+        if (isNext) {
+          const badge = document.createElement("span");
+          badge.className = "badge-next";
+          badge.textContent = "Próxima";
+          title.appendChild(badge);
+        }
+        tr.append(day, title, time, score, action);
         tbody.appendChild(tr);
       });
+    }
+
+    function chartOptions(reduceMotion, tickFont, grid, tick, ink, min, max, label) {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: reduceMotion ? false : { duration: 420, easing: "easeOutQuart" },
+        scales: {
+          y: {
+            min: min,
+            max: max,
+            grid: { color: grid },
+            border: { display: false },
+            ticks: { color: tick, font: tickFont }
+          },
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: { color: tick, font: tickFont, maxRotation: 0, autoSkip: false }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: ink,
+            titleColor: readToken("--paper"),
+            bodyColor: readToken("--paper"),
+            padding: 10,
+            cornerRadius: 8,
+            displayColors: false,
+            filter: (item) => item.dataset.label === "Precisão" || item.dataset.label === "Tempo",
+            callbacks: { label: label }
+          }
+        }
+      };
+    }
+
+    function buildDiagnosis(rows) {
+      const done = rows.filter((row) => row.score != null);
+      if (!done.length) return "Ainda não há aulas corrigidas. O metrônomo começa quando a prática abre.";
+      let worst = null;
+      for (let i = 1; i < done.length; i++) {
+        const drop = done[i - 1].score - done[i].score;
+        const timeUp = done[i].pace != null && done[i - 1].pace != null ? done[i].pace - done[i - 1].pace : null;
+        if (drop > 0 || (timeUp != null && timeUp >= 0.5)) {
+          const weight = drop * 10 + (timeUp > 0 ? timeUp : 0);
+          if (!worst || weight > worst.weight) worst = { lesson: done[i], drop: drop, timeUp: timeUp, weight: weight };
+        }
+      }
+      if (worst) {
+        const bits = ["Aula " + pad2(worst.lesson.id) + " ficou em " + (worst.lesson.score * 10) + "%"];
+        if (worst.drop > 0) bits.push(worst.drop * 10 + " pontos abaixo da aula anterior");
+        if (worst.lesson.pace != null) bits.push(formatPace(worst.lesson.pace) + " por item");
+        if (worst.timeUp != null && worst.timeUp >= 0.5) bits.push(formatPace(worst.timeUp).replace(" s", " s a mais"));
+        return bits.join(", ") + ".";
+      }
+      const slow = done.filter((row) => row.pace != null && row.pace >= 5).sort((a, b) => b.pace - a.pace)[0];
+      if (slow) return "Aula " + pad2(slow.id) + " está em " + (slow.score * 10) + "% e " + formatPace(slow.pace) + " por item, fora da zona de 5 s.";
+      const below = done.find((row) => row.score < 8);
+      if (below) return "Aula " + pad2(below.id) + " ficou em " + (below.score * 10) + "%, abaixo da meta de 80%.";
+      return "As aulas feitas sustentam a meta de 80%. O ritmo medido cabe na zona de 5 s por item.";
+    }
+
+    function paintAgilityNotes(rows) {
+      const done = rows.filter((row) => row.pace != null);
+      const rhythm = document.getElementById("agility-rhythm");
+      const adjust = document.getElementById("agility-adjust");
+      if (!done.length) {
+        rhythm.textContent = "Ritmo: ainda sem medida";
+        adjust.textContent = "Ajuste: —";
+        return;
+      }
+      const avg = done.reduce((sum, row) => sum + row.pace, 0) / done.length;
+      rhythm.textContent = avg < 5 ? "Ritmo: dentro da zona de 5 s" : "Ritmo: acima da zona de 5 s";
+      const slow = done.slice().sort((a, b) => b.pace - a.pace)[0];
+      adjust.textContent = "Aula mais lenta: " + pad2(slow.id) + " · " + formatPace(slow.pace);
     }
 
     function goToLesson(id) {
       switchTab("exercicios");
       loadLesson(id);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function resetAllProgress() {
